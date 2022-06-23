@@ -5,6 +5,7 @@ import SerialDisplay from './Displays/Serial'
 import BatteryDisplay from './Displays/Battery'
 
 export default function DeviceInformation() {
+  let batteryPercent = 0.25
   return (
     <div className='ml-[20vw] p-10'>
         <div className=''>
@@ -13,7 +14,7 @@ export default function DeviceInformation() {
                 <WifiDisplay className='p-5'/>
                 <BluetoothDisplay className='p-5'/>
                 <SerialDisplay className='p-5'/>
-                <BatteryDisplay className='p-5'/>
+                <BatteryDisplay className='p-5' percentage={batteryPercent}/>
             </div>
         </div>
         {/*
