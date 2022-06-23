@@ -1,6 +1,5 @@
-import './App.css';
-import DeviceInformation from './components/DeviceInformation';
 import Sidebar from './components/Sidebar';
+import DeviceInformation from './components/DeviceInformation';
 
 function App() {
   return (
