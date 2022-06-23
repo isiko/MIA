@@ -11,10 +11,10 @@ export default function DeviceInformation() {
         <div className=''>
             <h1 className='text-4xl text-left w-[50%] inline pr-5'>Device Information</h1>
             <div className='text-2xl text-center w-[50%] inline'>
-                <WifiDisplay className='p-5'/>
-                <BluetoothDisplay className='p-5'/>
-                <SerialDisplay className='p-5'/>
-                <BatteryDisplay className='p-5' percentage={batteryPercent}/>
+                <WifiDisplay className='p-5' active={true}/>
+                <BluetoothDisplay className='p-5' active={true}/>
+                <SerialDisplay className='p-5' active={true}/>
+                <BatteryDisplay className='p-5' percentage={batteryPercent} active={true}/>
             </div>
         </div>
         {/*

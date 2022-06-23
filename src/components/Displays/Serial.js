@@ -2,11 +2,15 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { solid, regular, brands } from '@fortawesome/fontawesome-svg-core/import.macro'
 
-export default function SerialDisplay() {
+export default function SerialDisplay({active}) {
     /* TODO Add Changing Icons depending on Input Value */
-    return (
-        <div className='inline p-1'>
-            <FontAwesomeIcon icon={solid('mars-and-venus-burst')} className="items-center" />
-        </div>
-    )
+    /* TODO Replace Icon with Proper Symbol*/
+    if(active){
+        return (
+            <div className='inline p-1'>
+                <FontAwesomeIcon icon={solid('wave-square')} className="items-center" />
+            </div>
+        )
+    }
+    return null;
 }
