@@ -1,9 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  mdoe: "jit",
+  mode: "jit",
   content: ["./src/**/*.{js,jsc,ts,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        pimary: '#ff0000',
+        secondary: '#ff0080',
+      },
+    },
   },
   plugins: [],
 }

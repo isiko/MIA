@@ -3,7 +3,7 @@ import DeviceInformation from './components/DeviceInformation';
 
 function App() {
   return (
-    <div className="App mx-auto">
+    <div className="mx-auto flex">
       <Sidebar/>
       <DeviceInformation/>
     </div>
