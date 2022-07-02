@@ -1,27 +1,40 @@
 import React from 'react'
-import { FaFire, FaDesktop, FaLaptop, FaMobileAlt } from 'react-icons/fa'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
 
 const Sidebar = function Sidebar() {
     return (
         <aside className="fixed top-0 left-0 h-screen w-16 m-0 flex flex-col bg-red-800 text-white shadow-lg">
-            <SidebarIcon text="asdf" icon={<FaFire size="28"/>} />
-            <SidebarIcon text="asdf" icon={<FaDesktop size="28"/>} />
-            <SidebarIcon text="asdf" icon={<FaLaptop size="28"/>} />
-            <SidebarIcon text="asdf" icon={<FaMobileAlt size="28"/>} />
+            <div className='flex h-[5rem] flex-col justify-center'>
+                <div className='sidebar-icon-highlighted'>
+                    <FontAwesomeIcon icon={solid('gear')} className="w-[28px] h-[28px]" size='28'/>
+                </div>
+            </div>
+            <SidebarIcon text="asdf" icon={0} />
+            <SidebarIcon text="asdf" icon={1} />
+            <SidebarIcon text="asdf" icon={2} />
             {/* TODO Add Devices to Sidebar */}
         </aside>
     )
 }
 
-const SidebarIcon = ({ icon, text }) => (
-    
-    <div className="sidebar-icon group">
-        { icon }
+const SidebarIcon = function ({ icon, text}) {
 
-        <span class='sidebar-tooltip group-hover:scale-100'>
-            { text }
-        </span>
-    </div>
-)
+    text = "asdf"
+
+    let icons = [
+        <FontAwesomeIcon icon={solid('display')} className="w-[28px] h-[28px]" size='28'/>,
+        <FontAwesomeIcon icon={solid('laptop')} className="w-[28px] h-[28px]" size='28'/>,
+        <FontAwesomeIcon icon={solid('mobile-screen')} className="w-[28px] h-[28px]" size='28'/>
+    ]
+    
+    return (
+        <div className={`sidebar-icon group`}>
+            { icons[icon] }
+
+            <span class='sidebar-tooltip group-hover:scale-100'> { text } </span>
+        </div>
+    )
+}
 
 export default Sidebar;
