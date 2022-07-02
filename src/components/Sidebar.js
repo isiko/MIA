@@ -26,9 +26,9 @@ const SidebarIcon = function ({ icon, text}) {
     text = "asdf"
 
     let icons = [
-        <FontAwesomeIcon icon={solid('display')} className="w-[28px] h-[28px]" size='28'/>,
-        <FontAwesomeIcon icon={solid('laptop')} className="w-[28px] h-[28px]" size='28'/>,
-        <FontAwesomeIcon icon={solid('mobile-screen')} className="w-[28px] h-[28px]" size='28'/>
+        <FontAwesomeIcon icon={solid('display')} className="w-[28px] h-[28px]" size='28'/>,         // Desktop  0
+        <FontAwesomeIcon icon={solid('laptop')} className="w-[28px] h-[28px]" size='28'/>,          // Laptop   1
+        <FontAwesomeIcon icon={solid('mobile-screen')} className="w-[28px] h-[28px]" size='28'/>    // Mobile   2
     ]
     
     return (
