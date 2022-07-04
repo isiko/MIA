@@ -11,12 +11,11 @@ export default class Settings extends Component {
       name: "Test Section",
       settings: [
         {
-          name: "Test Setting",
+          name: "Binary Test Setting",
           currentSetting: 0,
           options: [
-            "Option 1",
-            "Option 2",
-            "Option 3",
+            "Off",
+            "On",
           ]
         },
         {

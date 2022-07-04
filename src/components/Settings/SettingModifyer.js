@@ -1,6 +1,3 @@
-
-//export default function SettingModifyer({ name, options, selectedIndex, callback }) {
-
 import { React, Component } from 'react'
 
 export default class SettingModifyer extends Component {
@@ -24,17 +21,18 @@ export default class SettingModifyer extends Component {
         this.callback = props.callback
         this.name = props.name
         this.options = props.options
+        this.isBinary = this.options.length === 2;
 
         this.onClick = this.onClick.bind(this);
     }
 
     render() {
+
         return (
-            <button className='bg-purple-500 p-4 rounded' onClick={this.onClick}>
+            <button className={`p-4 rounded transition-color duration-100 ease-linear ${!this.isBinary ? 'bg-purple-500' : this.state.selectedIndex === 0 ?  'bg-red-500' : 'bg-green-500'}`} onClick={this.onClick}>
                 {this.name} <br/>
                 {this.options[this.state.selectedIndex]}
             </button>
         )
     }
 }
-
