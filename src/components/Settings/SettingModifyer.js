@@ -8,7 +8,7 @@ export default class SettingModifyer extends Component {
         }
         this.setState(this.state)
 
-        this.callback(this.name, this.state.selectedIndex);
+        this.callback(this.index, this.state.selectedIndex);
     }
 
     constructor(props){
@@ -21,6 +21,8 @@ export default class SettingModifyer extends Component {
         this.callback = props.callback
         this.name = props.name
         this.options = props.options
+        this.index = props.index
+
         this.isBinary = this.options.length === 2;
 
         this.onClick = this.onClick.bind(this);

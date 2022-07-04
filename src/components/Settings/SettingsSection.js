@@ -13,8 +13,9 @@ export default function SettingsSection({ title, settings, callback, index}) {
                             options={setting.options}
                             selectedIndex={setting.currentSetting}
                             name={setting.name}
-                            callback={(settingName, selectedIndex) => callback(settingName, title, selectedIndex)}
-                            key={index} />
+                            callback={(settingIndex, selectedIndex) => callback(settingIndex, index, selectedIndex)}
+                            key={index}
+                            index={index}/>
                     )
                 }
             </div>

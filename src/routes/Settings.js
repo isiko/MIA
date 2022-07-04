@@ -1,6 +1,5 @@
 import { React, Component } from 'react'
 import Headline from '../components/Headline'
-import SettingModifyer from '../components/Settings/SettingModifyer'
 import SettingsSection from '../components/Settings/SettingsSection';
 
 export default class Settings extends Component {
@@ -54,8 +53,8 @@ export default class Settings extends Component {
     }
   ]
 
-  changeSetting(name, section, index) {
-    console.log(`Set "${name}" of section "${section}" to ${index}`);
+  changeSetting(settingIndex, sectionIndex, selectedIndex) {
+    console.log(`Set "${this.settings[sectionIndex].settings[settingIndex].name}" of section "${this.settings[sectionIndex].name}" to ${selectedIndex}`);
 
     //TODO Communicate this to Backend
   }
