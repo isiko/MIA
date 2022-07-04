@@ -15,7 +15,8 @@ export default function SettingsSection({ title, settings, callback, index}) {
                             name={setting.name}
                             callback={(settingIndex, selectedIndex) => callback(settingIndex, index, selectedIndex)}
                             key={index}
-                            index={index}/>
+                            index={index}
+                            notBinary={setting.notBinary}/>
                     )
                 }
             </div>

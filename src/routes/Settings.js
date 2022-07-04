@@ -18,6 +18,15 @@ export default class Settings extends Component {
           ]
         },
         {
+          name: "Non binary Test Setting",
+          currentSetting: 0,
+          notBinary: true,
+          options: [
+            "Off",
+            "On",
+          ]
+        },
+        {
           name: "Test Setting 2",
           currentSetting: 0,
           options: [

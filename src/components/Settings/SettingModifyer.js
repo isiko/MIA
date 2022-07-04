@@ -23,7 +23,8 @@ export default class SettingModifyer extends Component {
         this.options = props.options
         this.index = props.index
 
-        this.isBinary = this.options.length === 2;
+        this.isBinary = (props.notBinary == undefined || !props.notBinary) && (this.options.length === 2);
+        console.log(props.notBinary);
 
         this.onClick = this.onClick.bind(this);
     }
