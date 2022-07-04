@@ -8,7 +8,7 @@ export default function SerialDisplay({ active, className }) {
     /* TODO Replace Icon with Proper Symbol*/
     return (
         <ConnectionDisplayWrapper className={className} active={active}>
-            <FontAwesomeIcon icon={brands('usb')} className="items-center" />
+            <FontAwesomeIcon icon={brands('usb')} className="connectivity-icon" />
         </ConnectionDisplayWrapper>
     )
 }

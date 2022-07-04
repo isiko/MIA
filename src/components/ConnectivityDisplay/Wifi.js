@@ -7,7 +7,7 @@ export default function WifiDisplay({active, className}) {
     /* TODO Add Changing Icons depending on Input Value */
     return (
         <ConnectionDisplayWrapper className={className} active={active}>
-            <FontAwesomeIcon icon={solid('wifi')}/>
+            <FontAwesomeIcon icon={solid('wifi')} className="connectivity-icon"/>
         </ConnectionDisplayWrapper>
     )
 }

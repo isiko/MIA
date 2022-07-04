@@ -8,7 +8,7 @@ export default function BluetoothDisplay({active, className}) {
     /* TODO Replace Icon with Bluetooth Symbol */
     return (
         <ConnectionDisplayWrapper className={className} active={active}>
-            <FontAwesomeIcon icon={brands('bluetooth-b')} className="items-center" />
+            <FontAwesomeIcon icon={brands('bluetooth-b')} className="connectivity-icon" />
         </ConnectionDisplayWrapper>
     )
 }
