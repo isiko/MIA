@@ -21,17 +21,19 @@ code {
   .sidebar-icon, .sidebar-icon-highlighted {
     @apply relative flex items-center justify-center;
     @apply h-12 w-12 mx-auto my-2;
-    @apply shadow-lg rounded-lg;
+    @apply rounded-lg hover:shadow-lg;
     @apply transition-all duration-150 ease-linear;
-    @apply hover:bg-gray-800 hover:text-red-800;
   }
 
   .sidebar-icon-highlighted {
-    @apply bg-red-500 text-gray-800;
+    @apply bg-red-500 text-gray-800 shadow-lg;
+    @apply hover:bg-gray-600;
   }
 
   .sidebar-icon {
     @apply bg-red-900 text-gray-50;
+    @apply hover:bg-gray-800;
+    @apply hover:text-red-800;
   }
 
   .sidebar-tooltip{
