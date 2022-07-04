@@ -1,20 +1,17 @@
 import React from 'react'
-import ConnectivityDisplay from './ConnectivityDisplay/ConnectivityDisplay'
-
+import ConnectivityDisplay from '../components/ConnectivityDisplay/ConnectivityDisplay'
+import Headline from '../components/Headline'
 
 export default function DeviceInformation() {
   return (
-    <div className='ml-16 w-full'>
-        {/* HEADER */}
-        <div className='p-5 bg-gray-800 text-white flex items-center font-black'>
-            <h1 className='text-4xl text-left inline pr-5'>Device Name</h1>
-            <ConnectivityDisplay/>
-        </div>
+    <div>
+        <Headline text={"Device Name"}>
+          <ConnectivityDisplay/>
+        </Headline>
         
-        {/* BODY */}
-        <div className='p-5 font-semibold'>
+        <div className='p-5 font-semibold '>
           {/* Recent Activity */}
-          <div class="grid grid-cols-2 gap-4 content-start text-center text-white">
+          <div className="grid grid-cols-2 gap-4 content-start text-center text-white">
             <div className='bg-purple-500 p-4 rounded'>Last Active: (Date)</div>
             <div className='bg-purple-500 p-4 rounded'>Last Action: (Action)</div>
             <div className='bg-purple-500 p-4 rounded'>Other Statistic</div>
