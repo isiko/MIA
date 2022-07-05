@@ -27,6 +27,12 @@ export default class Settings extends Component {
           ]
         },
         {
+          name: "Binary Test Setting with 0 options",
+          currentSetting: 0,
+          options: [
+          ]
+        },
+        {
           name: "Test Setting 2",
           currentSetting: 0,
           options: [
@@ -63,6 +69,7 @@ export default class Settings extends Component {
   ]
 
   changeSetting(settingIndex, sectionIndex, selectedIndex) {
+    //console.log(settingIndex, sectionIndex, selectedIndex);
     console.log(`Set "${this.settings[sectionIndex].settings[settingIndex].name}" of section "${this.settings[sectionIndex].name}" to ${selectedIndex}`);
 
     //TODO Communicate this to Backend
@@ -84,7 +91,7 @@ export default class Settings extends Component {
         <div className='p-5 font-semibold text-white'>
           {
             this.settings.slice(0).map((section, index) => {
-              return <SettingsSection settings={section.settings} title={section.name} key={index} index={index} callback={this.changeSetting} />
+              return <SettingsSection settings={section.settings} title={section.name} key={index} sectionIndex={index} callback={this.changeSetting} />
             })
           }
         </div>
