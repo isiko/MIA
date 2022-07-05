@@ -7,20 +7,25 @@ export default class Settings extends Component {
   //TOOD Replace this with call to Backend
   settings = [
     {
-      name: "Test Section",
+      name: "Multi Option Test Section",
+      settings: [
+        {
+          name: "Test Setting",
+          currentSetting: 0,
+          options: [
+            "Option 1",
+            "Option 2",
+            "Option 3",
+          ]
+        }
+      ]
+    },
+    {
+      name: "Binary Test Section",
       settings: [
         {
           name: "Binary Test Setting",
           currentSetting: 0,
-          options: [
-            "Off",
-            "On",
-          ]
-        },
-        {
-          name: "Non binary Test Setting",
-          currentSetting: 0,
-          notBinary: true,
           options: [
             "Off",
             "On",
@@ -33,35 +38,16 @@ export default class Settings extends Component {
           ]
         },
         {
-          name: "Test Setting 2",
+          name: "Binary Test Setting with null options",
           currentSetting: 0,
-          options: [
-            "Option 1",
-            "Option 2",
-            "Option 3",
-          ]
-        }
-      ]
-    },
-    {
-      name: "Test Section",
-      settings: [
-        {
-          name: "Test Setting",
-          currentSetting: 0,
-          options: [
-            "Option 1",
-            "Option 2",
-            "Option 3",
-          ]
         },
         {
-          name: "Test Setting 2",
+          name: "Non binary Test Setting",
           currentSetting: 0,
+          notBinary: true,
           options: [
             "Option 1",
             "Option 2",
-            "Option 3",
           ]
         }
       ]
