@@ -56,7 +56,7 @@ export default class Settings extends Component {
 
   changeSetting(settingIndex, sectionIndex, selectedIndex) {
     //console.log(settingIndex, sectionIndex, selectedIndex);
-    console.log(`Set "${this.settings[sectionIndex].settings[settingIndex].name}" of section "${this.settings[sectionIndex].name}" to ${selectedIndex}`);
+    console.log(`Set "${this.settings[sectionIndex].settings[settingIndex].name}" of section "${this.settings[sectionIndex].name}" to "${this.settings[sectionIndex].settings[settingIndex].options[selectedIndex]}"`);
 
     //TODO Communicate this to Backend
   }
