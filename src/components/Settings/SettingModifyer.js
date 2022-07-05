@@ -41,8 +41,8 @@ export default class SettingModifyer extends Component {
         this.options = props.options
         this.index = props.index
 
-        this.isBinary = (props.notBinary == undefined || !props.notBinary) && (this.options.length === 2 || this.options.length === 0);
-        if (this.options.length === 0){
+        this.isBinary = (props.notBinary == undefined || !props.notBinary) && (this.options === undefined || this.options.length === 0 || this.options.length === 2);
+        if (this.options === undefined || this.options.length === 0){
             this.options = [
                 "Off",
                 "On"
