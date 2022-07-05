@@ -2,7 +2,7 @@ import { React, Component } from 'react'
 
 const Option = ({ active, text, callback }) => {
     return (
-        <button className={`flex-1 p-3 px-5 m-auto rounded-lg shadow-lg transition-color duration-300 ${active ? 'bg-sky-400' : ''}`} onClick={callback}>{ text }</button>
+        <button className={`flex-1 p-3 px-5 m-auto rounded-lg transition-color duration-300 ${active ? 'shadow-lg bg-sky-400' : ''}`} onClick={callback}>{ text }</button>
     )
 }
 
