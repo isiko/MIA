@@ -2,7 +2,7 @@ import { React, Component } from 'react'
 
 const Option = ({ active, text, callback }) => {
     return (
-        <button className={`p-3 px-5 m-auto transition-color duration-300 ${active ? 'bg-sky-400' : ''}`} onClick={callback}>{ text }</button>
+        <button className={`flex-1 p-3 px-5 m-auto rounded-lg shadow-lg transition-color duration-300 ${active ? 'bg-sky-400' : ''}`} onClick={callback}>{ text }</button>
     )
 }
 
@@ -59,7 +59,7 @@ export default class SettingModifyer extends Component {
             <div onClick={this.incrementIndex} className={`select-none p-4 rounded grid grid-cols-2 gap-0 transition-color duration-100 ease-linear ${!this.isBinary ? 'bg-sky-500' : this.state.selectedIndex === 0 ?  'bg-red-500' : 'bg-green-500'}`}>
                 <div className='grid content-center'> {this.name} </div> 
                 
-                <div className={`flex justify-around p-0 bg-sky-700 rounded-lg ${this.isBinary ? 'flex-row-reverse' : 'flex-row'}`}>
+                <div className={`flex justify-between p-0 bg-sky-700 rounded-lg ${this.isBinary ? 'flex-row-reverse' : 'flex-row'}`}>
                     {
                         this.options.map((option, index) => {
                             let callback = e => {
