@@ -40,7 +40,7 @@ const SidebarIcon = function ({ icon, text, id}) {
             }}>
             { icons[icon] }
 
-            <span className='sidebar-tooltip group-hover:scale-100'> { text } </span>
+            {/* <span className='sidebar-tooltip group-hover:scale-100'> { text } </span> */}
         </NavLink>
     )
 }
