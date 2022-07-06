@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom'
 const Sidebar = function Sidebar() {
     //TODO Make this Scrollable
     return (
-        <aside className="fixed top-0 left-0 h-screen w-16 m-0 flex flex-col bg-red-900 text-white shadow-lg overflow-scroll">
+        <aside className="fixed top-0 left-0 h-screen w-16 m-0 flex flex-col bg-red-900 text-white shadow-lg">
             <div className='flex h-[5rem] flex-col justify-center shrink-0'>
                 <NavLink to="settings" className={({ isActive }) => isActive ? "sidebar-icon-highlighted" : "sidebar-icon" }>
                         <FontAwesomeIcon icon={solid('gear')} className="w-[28px] h-[28px]" />
