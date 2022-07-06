@@ -7,27 +7,10 @@ export default class Settings extends Component {
   //TOOD Replace this with call to Backend
   settings = [
     {
-      name: "Test Section",
+      name: "Multi Option Test Section",
       settings: [
         {
-          name: "Binary Test Setting",
-          currentSetting: 0,
-          options: [
-            "Off",
-            "On",
-          ]
-        },
-        {
-          name: "Non binary Test Setting",
-          currentSetting: 0,
-          notBinary: true,
-          options: [
-            "Off",
-            "On",
-          ]
-        },
-        {
-          name: "Test Setting 2",
+          name: "Test Setting",
           currentSetting: 0,
           options: [
             "Option 1",
@@ -38,24 +21,33 @@ export default class Settings extends Component {
       ]
     },
     {
-      name: "Test Section",
+      name: "Binary Test Section",
       settings: [
         {
-          name: "Test Setting",
+          name: "Binary Test Setting",
           currentSetting: 0,
           options: [
-            "Option 1",
-            "Option 2",
-            "Option 3",
+            "Off",
+            "On",
           ]
         },
         {
-          name: "Test Setting 2",
+          name: "Binary Test Setting with 0 options",
           currentSetting: 0,
+          options: [
+          ]
+        },
+        {
+          name: "Binary Test Setting with null options",
+          currentSetting: 0,
+        },
+        {
+          name: "Non binary Test Setting",
+          currentSetting: 0,
+          notBinary: true,
           options: [
             "Option 1",
             "Option 2",
-            "Option 3",
           ]
         }
       ]
@@ -63,7 +55,8 @@ export default class Settings extends Component {
   ]
 
   changeSetting(settingIndex, sectionIndex, selectedIndex) {
-    console.log(`Set "${this.settings[sectionIndex].settings[settingIndex].name}" of section "${this.settings[sectionIndex].name}" to ${selectedIndex}`);
+    //console.log(settingIndex, sectionIndex, selectedIndex);
+    console.log(`Set "${this.settings[sectionIndex].settings[settingIndex].name}" of section "${this.settings[sectionIndex].name}" to "${this.settings[sectionIndex].settings[settingIndex].options[selectedIndex]}"`);
 
     //TODO Communicate this to Backend
   }
@@ -84,7 +77,7 @@ export default class Settings extends Component {
         <div className='p-5 font-semibold text-white'>
           {
             this.settings.slice(0).map((section, index) => {
-              return <SettingsSection settings={section.settings} title={section.name} key={index} index={index} callback={this.changeSetting} />
+              return <SettingsSection settings={section.settings} title={section.name} key={index} sectionIndex={index} callback={this.changeSetting} />
             })
           }
         </div>

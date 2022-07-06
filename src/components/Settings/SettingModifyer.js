@@ -1,11 +1,29 @@
 import { React, Component } from 'react'
 
+const Option = ({ active, text, callback }) => {
+    return (
+        <button className={`flex-1 p-3 px-5 m-auto rounded-lg transition-color duration-300 ${active ? 'shadow-lg bg-sky-400' : ''}`} onClick={callback}>{ text }</button>
+    )
+}
+
 export default class SettingModifyer extends Component {
-    onClick() {
+    setIndex(index, event) {
+        this.state.selectedIndex = index;
+
+        this.setState(this.state)
+
+        this.callback(this.index, this.state.selectedIndex);
+
+    }
+
+    incrementIndex(e) {
+        e.stopPropagation();
+
         this.state.selectedIndex++;
         if (this.state.selectedIndex >= this.options.length) {
             this.state.selectedIndex = 0;
         }
+        
         this.setState(this.state)
 
         this.callback(this.index, this.state.selectedIndex);
@@ -23,19 +41,36 @@ export default class SettingModifyer extends Component {
         this.options = props.options
         this.index = props.index
 
-        this.isBinary = (props.notBinary == undefined || !props.notBinary) && (this.options.length === 2);
-        console.log(props.notBinary);
+        this.isBinary = (props.notBinary == undefined || !props.notBinary) && (this.options === undefined || this.options.length === 0 || this.options.length === 2);
+        if (this.options === undefined || this.options.length === 0){
+            this.options = [
+                "Off",
+                "On"
+            ]
+        }
 
-        this.onClick = this.onClick.bind(this);
+        this.setIndex = this.setIndex.bind(this);
+        this.incrementIndex = this.incrementIndex.bind(this);
     }
 
     render() {
 
         return (
-            <button className={`p-4 rounded transition-color duration-100 ease-linear ${!this.isBinary ? 'bg-purple-500' : this.state.selectedIndex === 0 ?  'bg-red-500' : 'bg-green-500'}`} onClick={this.onClick}>
-                {this.name} <br/>
-                {this.options[this.state.selectedIndex]}
-            </button>
+            <div onClick={this.incrementIndex} className={`select-none p-4 rounded grid grid-cols-2 gap-0 transition-color duration-100 ease-linear ${!this.isBinary ? 'bg-sky-500' : this.state.selectedIndex === 0 ?  'bg-red-500' : 'bg-green-500'}`}>
+                <div className='grid content-center'> {this.name} </div> 
+                
+                <div className={`flex justify-between p-0 bg-sky-700 rounded-lg ${this.isBinary ? 'flex-row-reverse' : 'flex-row'}`}>
+                    {
+                        this.options.map((option, index) => {
+                            let callback = e => {
+                                e.stopPropagation();
+                                this.setIndex(index);
+                            }
+                            return <Option active={this.state.selectedIndex === index} text={option} callback={callback} key={index} />
+                        })
+                    }
+                </div>
+            </div>
         )
     }
 }
