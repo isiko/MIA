@@ -4,6 +4,26 @@ import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
 import { NavLink } from 'react-router-dom'
 
 const Sidebar = function Sidebar() {
+
+    let devices = [
+        {
+            icon: 0,
+            name: "Device 1",
+        },
+        {
+            icon: 1,
+            name: "Device 2",
+        },
+        {
+            icon: 2,
+            name: "Device 3",
+        },
+        {
+            icon: 2,
+            name: "Device 4",
+        }
+    ]
+
     //TODO Make this Scrollable
     return (
         <aside className="fixed top-0 left-0 h-screen w-16 m-0 flex flex-col bg-red-900 text-white shadow-lg">
@@ -13,9 +33,11 @@ const Sidebar = function Sidebar() {
                 </NavLink>
             </div>
             <div className=''>
-                <SidebarIcon text="asdf" icon={0} id={0} />
-                <SidebarIcon text="asdf" icon={1} id={1} />
-                <SidebarIcon text="asdf" icon={2} id={2} />
+                {
+                    devices.map((device, index) => {
+                        return <SidebarIcon icon={device.icon} text={device.name} id={index} key={index} />
+                    })
+                }
             </div>
             {/* TODO Add Devices to Sidebar */}
         </aside>
@@ -23,8 +45,6 @@ const Sidebar = function Sidebar() {
 }
 
 const SidebarIcon = function ({ icon, text, id}) {
-
-    text = "asdf"
 
     let icons = [
         <FontAwesomeIcon icon={solid('display')} className="w-[28px] h-[28px]" />,         // Desktop  0
@@ -40,7 +60,7 @@ const SidebarIcon = function ({ icon, text, id}) {
             }}>
             { icons[icon] }
 
-            {/* <span className='sidebar-tooltip group-hover:scale-100'> { text } </span> */}
+            <span className='sidebar-tooltip group-hover:scale-100'> { text } </span>
         </NavLink>
     )
 }
