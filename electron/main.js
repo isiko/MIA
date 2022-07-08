@@ -5,11 +5,16 @@ const isDev = require("electron-is-dev");
 
 function createWindow() {
   // Create the browser window.
+  const devtools = new BrowserWindow()
   const win = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
-      devTools: true
+      devTools: true,
+      nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
+      contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
+      enableRemoteModule: true,
+      preload: path.join(__dirname, 'preload.js'),
     }
   });
 
@@ -22,7 +27,6 @@ function createWindow() {
   );
 
   
-  devtools = new BrowserWindow()
   win.webContents.setDevToolsWebContents(devtools.webContents)
   win.webContents.openDevTools({ mode: 'detach' })
   // Open the DevTools.
