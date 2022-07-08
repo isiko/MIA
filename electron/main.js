@@ -26,13 +26,10 @@ function createWindow() {
       : `file://${path.join(__dirname, "../build/index.html")}`
   );
 
-  
-  win.webContents.setDevToolsWebContents(devtools.webContents)
-  win.webContents.openDevTools({ mode: 'detach' })
   // Open the DevTools.
   if (isDev) {
-    // win.webContents.openDevTools({ mode: "detach" });
-    // win.webContents.openDevTools();
+    win.webContents.setDevToolsWebContents(devtools.webContents)
+    win.webContents.openDevTools({ mode: 'detach' })
   }
 }
 
