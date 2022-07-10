@@ -1,7 +1,8 @@
 const { contextBridge, ipcMain, ipcRenderer } = require('electron')
 
 contextBridge.exposeInMainWorld('settings', {
-  get: () => ipcRenderer.invoke('settings:get')
+  get: () => ipcRenderer.invoke('settings:get'),
+  set: (settingIndex, sectionIndex, selectedIndex) => ipcRenderer.invoke('settings:change', settingIndex, sectionIndex, selectedIndex)
 })
 
 contextBridge.exposeInMainWorld('devices', {

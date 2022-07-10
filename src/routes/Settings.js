@@ -7,9 +7,7 @@ export default class Settings extends Component {
   //TOOD Replace this with call to Backend
 
   changeSetting(settingIndex, sectionIndex, selectedIndex) {
-    console.log(`Set "${this.state.settings[sectionIndex].settings[settingIndex].name}" of section "${this.state.settings[sectionIndex].name}" to "${this.state.settings[sectionIndex].settings[settingIndex].options[selectedIndex]}"`);
-
-    //TODO Communicate this to Backend
+    window.settings.set(settingIndex, sectionIndex, selectedIndex)
   }
 
   constructor(props) {

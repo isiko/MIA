@@ -3,7 +3,18 @@ const path = require("path");
 const { app, BrowserWindow, ipcMain } = require("electron");
 const isDev = require("electron-is-dev");
 
-const handlers = require('./IPCHandlers')
+var handlers = []
+
+handlers = handlers.concat(require('./IPCHandlers'))
+
+// Setup Grlobals
+global.settings = undefined;
+global.settingsPath = app.getPath("userData") + "/settings.json";
+
+// Setup Settings
+const SettingsHandler = require('./SettingsHandler')
+handlers = handlers.concat(SettingsHandler.handlers)
+SettingsHandler.loadSettings()
 
 function createWindow() {
   // Create the browser window.
@@ -15,7 +26,6 @@ function createWindow() {
       devTools: true,
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
       contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
-      //enableRemoteModule: true,
       preload: path.join(__dirname, 'preload.js'),
     }
   });
