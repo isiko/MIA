@@ -18,6 +18,10 @@ class Sidebar extends Component {
                 devices: devices
             })
         })
+        
+        window.devices.onUpdate((_event, devices) => {
+            this.setState({devices: devices})
+        })
     }
     //TODO Make this Scrollable
     render() {

@@ -6,7 +6,8 @@ contextBridge.exposeInMainWorld('settings', {
 })
 
 contextBridge.exposeInMainWorld('devices', {
-  get: () => ipcRenderer.invoke('devices:get')
+  get: () => ipcRenderer.invoke('devices:get'),
+  onUpdate: (callback) => ipcRenderer.on('devices:update', callback),
 })
 
 contextBridge.exposeInMainWorld('versions', {
