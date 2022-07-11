@@ -7,13 +7,12 @@ var windows = []
 
 // Setup Grlobals
 global.isDev = require("electron-is-dev");
-global.userDataPath = app.getPath("userData");
 
-global.deviceList = undefined;
-global.deviceListPath = userDataPath + "/devices.json";
+global.deviceCache = undefined;
+global.deviceCachePath = app.getPath("userData") + "/deviceCache.json";
 
 global.settings = undefined;
-global.settingsPath = userDataPath + "/settings.json";
+global.settingsPath = app.getPath("userData") + "/settings.json";
 
 // Setup Settings
 const SettingsHandler = require('./SettingsHandler')

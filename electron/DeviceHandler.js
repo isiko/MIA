@@ -1,25 +1,36 @@
 const fs = require('fs');
 
-function loadDevices() {
-    console.log("Loading Device List");
+function loadDeviceCache() {
+    console.log("Loading Device Cache");
+    console.log("Device Cache Path: " + deviceCachePath);
 
-    if(fs.existsSync(deviceListPath)){
+    if(fs.existsSync(deviceCachePath)){
         console.log("Found existing Device List");
-        global.deviceList = JSON.parse(fs.readFileSync(deviceListPath));
+        global.deviceCache = JSON.parse(fs.readFileSync(deviceCachePath));
     } else {
         console.log("Device List Does Not Exist");
-        global.deviceList = [];
-        saveDevices();
+        global.deviceCache = [];
+        saveDeviceCache();
     }
 
-    if (isDev) deviceList = deviceList.concat(getDummyData());
-
-    return deviceList;
+    return deviceCache;
 }
 
-function saveDevices() {
+function saveDeviceCache() {
     console.log("Saving Device List");
-    fs.writeFileSync(deviceListPath, JSON.stringify(deviceList));
+    fs.writeFileSync(deviceCachePath, JSON.stringify(deviceCache));
+}
+
+function getDeviceList() {
+    if(deviceCache === undefined){
+        loadDeviceCache();
+    }
+
+    let deviceList = deviceCache;
+    
+    if(isDev) deviceList = deviceList.concat(getDummyData());
+    
+    return deviceList;
 }
 
 function getDummyData() {
@@ -43,18 +54,16 @@ function getDummyData() {
     ]
 }
 
-loadDevices();
+loadDeviceCache();
 
 module.exports = {
+    loadDeviceCache,
+    saveDeviceCache,
+    getDeviceList,
     handlers: [
         {
             name: 'devices:get',
-            handler: () => {
-                if(deviceList === undefined){
-                    loadDevices();
-                }
-                return deviceList;
-            }
+            handler: () => getDeviceList()
         }
     ]
 }
