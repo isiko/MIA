@@ -1,20 +1,28 @@
 const path = require("path");
 
 const { app, BrowserWindow, ipcMain } = require("electron");
-const isDev = require("electron-is-dev");
 
 var handlers = []
 
 handlers = handlers.concat(require('./IPCHandlers'))
 
 // Setup Grlobals
+global.isDev = require("electron-is-dev");
+global.userDataPath = app.getPath("userData");
+
+global.deviceList = undefined;
+global.deviceListPath = userDataPath + "/devices.json";
+
 global.settings = undefined;
-global.settingsPath = app.getPath("userData") + "/settings.json";
+global.settingsPath = userDataPath + "/settings.json";
 
 // Setup Settings
 const SettingsHandler = require('./SettingsHandler')
 handlers = handlers.concat(SettingsHandler.handlers)
-SettingsHandler.loadSettings()
+
+//Load Device List
+const DeviceHandler = require('./DeviceHandler')
+handlers = handlers.concat(DeviceHandler.handlers)
 
 function createWindow() {
   // Create the browser window.
