@@ -3,6 +3,7 @@ const path = require("path");
 const { app, BrowserWindow, ipcMain } = require("electron");
 
 var handlers = []
+var windows = []
 
 // Setup Grlobals
 global.isDev = require("electron-is-dev");
@@ -49,6 +50,8 @@ function createWindow() {
     win.webContents.setDevToolsWebContents(devtools.webContents)
     win.webContents.openDevTools({ mode: 'detach' })
   }
+
+  windows.push(win);
 }
 
 // This method will be called when Electron has finished
