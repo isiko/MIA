@@ -4,8 +4,6 @@ const { app, BrowserWindow, ipcMain } = require("electron");
 
 var handlers = []
 
-handlers = handlers.concat(require('./IPCHandlers'))
-
 // Setup Grlobals
 global.isDev = require("electron-is-dev");
 global.userDataPath = app.getPath("userData");
