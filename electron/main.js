@@ -8,19 +8,17 @@ var windows = []
 // Setup Grlobals
 global.isDev = require("electron-is-dev");
 
-global.deviceCache = undefined;
-global.deviceCachePath = app.getPath("userData") + "/deviceCache.json";
-
+// Setup Settings
 global.settings = undefined;
 global.settingsPath = app.getPath("userData") + "/settings.json";
-
-// Setup Settings
-const SettingsHandler = require('./SettingsHandler')
+global.SettingsHandler = require('./SettingsHandler')
 handlers = handlers.concat(SettingsHandler.handlers)
 
-//Load Device List
-const DeviceHandler = require('./ConnectionHandler')
-handlers = handlers.concat(DeviceHandler.handlers)
+// Setup Device Handling
+global.deviceCache = undefined;
+global.deviceCachePath = app.getPath("userData") + "/deviceCache.json";
+global.ConnectionHandler = require('./ConnectionHandler')
+handlers = handlers.concat(ConnectionHandler.handlers)
 
 function createWindow() {
   // Create the browser window.
