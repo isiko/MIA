@@ -19,7 +19,7 @@ const SettingsHandler = require('./SettingsHandler')
 handlers = handlers.concat(SettingsHandler.handlers)
 
 //Load Device List
-const DeviceHandler = require('./DeviceHandler')
+const DeviceHandler = require('./ConnectionHandler')
 handlers = handlers.concat(DeviceHandler.handlers)
 
 function createWindow() {
