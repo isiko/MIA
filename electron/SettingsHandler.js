@@ -26,6 +26,22 @@ function saveSettings(){
     fs.writeFileSync(settingsPath, JSON.stringify(settings));
 }
 
+function addSection(pSection){
+    //Find a Section where the name is equal to section.name
+    const existingSection = settings.find((section) => section.name === pSection.name);
+    if(existingSection !== undefined){
+        const sectionIndex = settings.indexOf(existingSection);
+        console.log("Section already exists");
+        
+        settings[sectionIndex] = pSection;
+        return new sectionHandler(sectionIndex);
+    } else {
+        console.log("Section does not exist");
+        settings.push(pSection);
+        return new sectionHandler(settings.indexOf(pSection));
+    }
+}
+
 function getDefaultSettings(){
     return [
         {
@@ -75,6 +91,20 @@ function getDefaultSettings(){
             ]
         }
     ]
+}
+
+class sectionHandler {
+    constructor(section) {
+        this.section = section;
+    }
+
+    getSettings() {
+        return settings[this.section].settings;
+    }
+
+    updateSettings(settings) {
+        settings[this.section].settings = settings;
+    }
 }
 
 // Setup
