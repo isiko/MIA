@@ -1,47 +1,47 @@
-import React from 'react'
+import { React, Component } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
 import { NavLink } from 'react-router-dom'
 
-const Sidebar = function Sidebar() {
+class Sidebar extends Component {
+    constructor(props){
+        super(props)
 
-    let devices = [
-        {
-            icon: 0,
-            name: "Device 1",
-        },
-        {
-            icon: 1,
-            name: "Device 2",
-        },
-        {
-            icon: 2,
-            name: "Device 3",
-        },
-        {
-            icon: 2,
-            name: "Device 4",
+        this.state = {
+            devices: []
         }
-    ]
+    }
 
+    componentDidMount(){
+        window.devices.get().then((devices) => {
+            this.setState({
+                devices: devices
+            })
+        })
+        
+        window.devices.onUpdate((_event, devices) => {
+            this.setState({devices: devices})
+        })
+    }
     //TODO Make this Scrollable
-    return (
-        <aside className="fixed top-0 left-0 h-screen w-16 m-0 flex flex-col bg-red-900 text-white shadow-lg">
-            <div className='flex h-[5rem] flex-col justify-center shrink-0'>
-                <NavLink to="settings" className={({ isActive }) => isActive ? "sidebar-icon-highlighted" : "sidebar-icon" }>
+    render() {
+        return (
+            <aside className="fixed top-0 left-0 h-screen w-16 m-0 flex flex-col bg-red-900 text-white shadow-lg">
+                <div className='flex h-[5rem] flex-col justify-center shrink-0'>
+                    <NavLink to="settings" className={({ isActive }) => isActive ? "sidebar-icon-highlighted" : "sidebar-icon"}>
                         <FontAwesomeIcon icon={solid('gear')} className="w-[28px] h-[28px]" />
-                </NavLink>
-            </div>
-            <div className=''>
-                {
-                    devices.map((device, index) => {
-                        return <SidebarIcon icon={device.icon} text={device.name} id={index} key={index} />
-                    })
-                }
-            </div>
-            {/* TODO Add Devices to Sidebar */}
-        </aside>
-    )
+                    </NavLink>
+                </div>
+                <div className=''>
+                    {
+                        this.state.devices.map((device, index) => {
+                            return <SidebarIcon icon={device.icon} text={device.name} id={index} key={index} />
+                        })
+                    }
+                </div>
+            </aside>
+        )
+    }
 }
 
 const SidebarIcon = function ({ icon, text, id}) {
