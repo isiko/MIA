@@ -1,6 +1,7 @@
 const path = require("path");
-
 const { app, BrowserWindow, ipcMain } = require("electron");
+
+const EncryptionHandler = require("./EncryptionHandler");
 
 var handlers = []
 var windows = []
@@ -62,6 +63,9 @@ app.whenReady().then(() => {
     ipcMain.handle(handler.name, handler.handler)
   })
   createWindow();
+
+  //Setup Encryption
+  global.EncryptionHandler = new EncryptionHandler();
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
