@@ -52,7 +52,7 @@
   "devDependencies": {
     "autoprefixer": "^10.4.7",
     "concurrently": "^5.2.0",
-    "electron": "^9.1.1",
+    "electron": "^19.0.8",
     "postcss": "^8.4.14",
     "tailwindcss": "^3.1.4",
     "wait-on": "^5.1.0"
