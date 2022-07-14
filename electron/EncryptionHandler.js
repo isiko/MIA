@@ -63,7 +63,9 @@ class EncryptionHandler {
             // Save Keypair
             this.publicKey = publicKey
             this.privateKey = privateKey
+
             this.saveKeyPair()
+            ConnectionHandler.spreadNewDeviceID();
           });
     }
 
