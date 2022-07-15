@@ -1,4 +1,7 @@
 const fs = require('fs');
+const { app } = require('electron');
+
+const deviceCachePath = app.getPath("userData") + "/deviceCache.json";
 
 class ConnectionHandler {
 

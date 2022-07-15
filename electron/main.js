@@ -51,7 +51,6 @@ app.whenReady().then(() => {
 
   // Setup Settings
   global.settings = undefined;
-  global.settingsPath = app.getPath("userData") + "/settings.json";
   global.SettingsHandler = require('./SettingsHandler')
   handlers = handlers.concat(SettingsHandler.handlers)
   
@@ -63,7 +62,6 @@ app.whenReady().then(() => {
 
   // Setup Device Handling
   global.deviceCache = undefined;
-  global.deviceCachePath = app.getPath("userData") + "/deviceCache.json";
   global.ConnectionHandler = new ConnectionHandler();
   handlers = handlers.concat(global.ConnectionHandler.handlers)
 

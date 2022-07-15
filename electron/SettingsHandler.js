@@ -1,4 +1,7 @@
 const fs = require("fs");
+const { app } = require('electron')
+
+const settingsPath = app.getPath("userData") + "/settings.json";
 
 function loadSettings(){
     console.log("Loading Settings");
