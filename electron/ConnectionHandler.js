@@ -12,36 +12,68 @@ class ConnectionHandler {
         }
     ]
 
+    connections = []
+
     constructor(){
         this.loadDeviceCache();
+        
+        let connectionTypes = [
+        ]
+        
+        connectionTypes.forEach((Connection)=> {
+            let connection = new Connection();
+            console.log("Registering Connection " + connection.name)
+            this.connections.push(connection)
+        })
     }
 
     /**
      * Sends a preformated message
      * @param {JSON} message The message to send
-     * @param {string} deviceID The target device ID. If it is not set, the message will be sent to all known devices
+     * @param {string or string[]} deviceID The target device ID. If it is not set, the message will be sent to all known devices
      */
     sendMessage(message, deviceID){
         console.log("Sending Message");
-        console.log("Device Key: " + deviceKey);
-        
-        let encryptedMessage = EncryptionHandler.encryptMessage(deviceID, message);
-        console.log("Encrypted Message: " + encryptedMessage);
 
-        //TODO: send encrypted message to device
+        let devices = []
+
+        if(Array.isArray(deviceID)){
+            devices = deviceID
+        } else {
+            devices.push(deviceID)
+        }
+
+        devices.forEach((device) => {
+            let encryptedMessage = EncryptionHandler.encryptMessage(device, message);
+            this.connections.forEach((connection) => {
+                connection.sendBytes(encryptedMessage, device)
+            })
+        })
     }
 
-    /**
-     * Sends a new Public Key to all Peers
-     */
-    spreadNewDeviceID(){
-        console.log("Updating DeviceID");
-
-        //TODO: send new public key to all peers
+    sendMessageToAllDevices(message){
+        let deviceIDs = []
+        deviceCache.forEach((device) => {
+            deviceIDs.push(device.id)
+        })
+        this.sendMessage(message, deviceIDs)
     }
 
-    //TODO: implement this
-    startSearch(){}
+    startSearch(){
+        this.connections.forEach((connection) => connection.startSearch())
+    }
+
+    registerNewDevice(name, type, deviceID) {
+        console.log("Found new Device " + name)
+
+        deviceCache.push({
+            name: name,
+            icon: type,
+            id: deviceID,
+        })
+
+        this.saveDeviceCache()
+    }
 
     loadDeviceCache() {
         console.log("Loading Device Cache");
@@ -62,6 +94,12 @@ class ConnectionHandler {
     saveDeviceCache() {
         console.log("Saving Device List");
         fs.writeFileSync(deviceCachePath, JSON.stringify(deviceCache));
+        this.sendCacheToFrontend();
+    }
+
+    sendCacheToFrontend(){
+        // TODO: Send devices to Frontend
+        console.log("Sending Device Cache to Frontend");
     }
 
     getDeviceList() {
@@ -81,18 +119,22 @@ class ConnectionHandler {
             {
                 icon: 0,
                 name: "Device 1",
+                id: "asdfasdfasdf1"
             },
             {
                 icon: 1,
                 name: "Device 2",
+                id: "asdfasdfasdf2"
             },
             {
                 icon: 2,
                 name: "Device 3",
+                id: "asdfasdfasdf3"
             },
             {
                 icon: 2,
                 name: "Device 4",
+                id: "asdfasdfasdf4"
             }
         ]
     }

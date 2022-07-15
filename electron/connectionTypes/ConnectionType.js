@@ -5,7 +5,7 @@ class ConenctionType extends Plugin {
         super(name)
     }
 
-    startSearch(callback){}
+    async startSearch(){}
 
     /**
      * Sends an encrypted Message to a specific Device

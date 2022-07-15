@@ -33,7 +33,7 @@ class EncryptionHandler {
     encryptMessage(deviceID, message){
         console.log("Encrypting Message");
         let deviceKey = this.convertDeviceKeyToPublicKey(deviceID);
-        let encryptedMessage = crypto.publicEncrypt(deviceKey, message);
+        let encryptedMessage = crypto.publicEncrypt(deviceKey, JSON.stringify(message));
         return encryptedMessage;
     }
 
