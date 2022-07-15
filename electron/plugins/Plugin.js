@@ -5,7 +5,7 @@ class Plugin {
 
     constructor(name){
         this.name = name
-        this.cacheHandler = new CacheHandler('plugin:' + this.name);
+        this.cacheHandler = new CacheHandler('plugin_' + this.name);
 
         this.sendMessage = PluginHandler.registerPlugin(this)
     }

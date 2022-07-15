@@ -3,6 +3,7 @@ const { app, BrowserWindow, ipcMain } = require("electron");
 
 const EncryptionHandler = require("./EncryptionHandler");
 const PluginHandler = require("./PluginHandler");
+const ConnectionHandler = require("./ConnectionHandler");
 
 var handlers = []
 var windows = []
@@ -63,8 +64,8 @@ app.whenReady().then(() => {
   // Setup Device Handling
   global.deviceCache = undefined;
   global.deviceCachePath = app.getPath("userData") + "/deviceCache.json";
-  global.ConnectionHandler = require('./ConnectionHandler')
-  handlers = handlers.concat(ConnectionHandler.handlers)
+  global.ConnectionHandler = new ConnectionHandler();
+  handlers = handlers.concat(global.ConnectionHandler.handlers)
 
   console.log("Loading IPC Handlers");
   handlers.forEach(handler => {
