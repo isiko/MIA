@@ -2,6 +2,7 @@ const path = require("path");
 const { app, BrowserWindow, ipcMain } = require("electron");
 
 const EncryptionHandler = require("./EncryptionHandler");
+const PluginHandler = require("./PluginHandler");
 
 var handlers = []
 var windows = []
@@ -55,6 +56,9 @@ app.whenReady().then(() => {
   
   //Setup Encryption
   global.EncryptionHandler = new EncryptionHandler();
+
+  //Setup Plugin Handling
+  global.PluginHandler = new PluginHandler();
 
   // Setup Device Handling
   global.deviceCache = undefined;
