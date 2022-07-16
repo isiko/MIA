@@ -1,24 +1,14 @@
 const path = require("path");
-
 const { app, BrowserWindow, ipcMain } = require("electron");
 
+const EncryptionHandler = require("./EncryptionHandler");
+const PluginHandler = require("./PluginHandler");
+const ConnectionHandler = require("./ConnectionHandler");
+
 var handlers = []
-var windows = []
 
 // Setup Grlobals
 global.isDev = require("electron-is-dev");
-
-// Setup Settings
-global.settings = undefined;
-global.settingsPath = app.getPath("userData") + "/settings.json";
-global.SettingsHandler = require('./SettingsHandler')
-handlers = handlers.concat(SettingsHandler.handlers)
-
-// Setup Device Handling
-global.deviceCache = undefined;
-global.deviceCachePath = app.getPath("userData") + "/deviceCache.json";
-global.ConnectionHandler = require('./ConnectionHandler')
-handlers = handlers.concat(ConnectionHandler.handlers)
 
 function createWindow() {
   // Create the browser window.
@@ -48,7 +38,7 @@ function createWindow() {
     win.webContents.openDevTools({ mode: 'detach' })
   }
 
-  windows.push(win);
+  global.mainWindow = win
 }
 
 // This method will be called when Electron has finished
@@ -56,12 +46,35 @@ function createWindow() {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   console.log("App Ready");
-  console.log("Loading Handlers");
+  createWindow();
+
+  // Setup Settings
+  global.settings = undefined;
+  global.SettingsHandler = require('./SettingsHandler')
+  handlers = handlers.concat(SettingsHandler.handlers)
+  
+  //Setup Encryption
+  global.EncryptionHandler = new EncryptionHandler();
+
+  //Setup Plugin Handling
+  global.PluginHandler = new PluginHandler();
+
+  // Setup Device Handling
+  global.deviceCache = undefined;
+  global.ConnectionHandler = new ConnectionHandler();
+  handlers = handlers.concat(global.ConnectionHandler.handlers)
+
+  console.log("Loading IPC Handlers");
   handlers.forEach(handler => {
     console.log(`Registering handler for ${handler.name}`);
     ipcMain.handle(handler.name, handler.handler)
   })
-  createWindow();
+
+  // Load Connection Types
+  require('./connectionTypes/connectionTypeList');
+
+  // Load Plugins
+  require('./plugins/pluginList');
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
