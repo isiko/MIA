@@ -100,6 +100,7 @@ class ConnectionHandler {
     sendCacheToFrontend(){
         // TODO: Send devices to Frontend
         console.log("Sending Device Cache to Frontend");
+        mainWindow.webContents.send('devices:update', this.getDeviceList());
     }
 
     getDeviceList() {

@@ -6,7 +6,6 @@ const PluginHandler = require("./PluginHandler");
 const ConnectionHandler = require("./ConnectionHandler");
 
 var handlers = []
-var windows = []
 
 // Setup Grlobals
 global.isDev = require("electron-is-dev");
@@ -39,7 +38,7 @@ function createWindow() {
     win.webContents.openDevTools({ mode: 'detach' })
   }
 
-  windows.push(win);
+  global.mainWindow = win
 }
 
 // This method will be called when Electron has finished
