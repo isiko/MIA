@@ -69,6 +69,12 @@ app.whenReady().then(() => {
     console.log(`Registering handler for ${handler.name}`);
     ipcMain.handle(handler.name, handler.handler)
   })
+
+  // Load Connection Types
+  require('./connectionTypes/connectionTypeList');
+
+  // Load Plugins
+  require('./plugins/pluginList');
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common

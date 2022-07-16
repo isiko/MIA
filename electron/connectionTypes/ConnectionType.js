@@ -3,6 +3,7 @@ const Plugin = require('./../plugins/Plugin')
 class ConenctionType extends Plugin {
     constructor(name){
         super(name)
+        ConnectionHandler.registerConnectionType(this)
     }
 
     async startSearch(){}

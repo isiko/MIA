@@ -16,15 +16,6 @@ class ConnectionHandler {
 
     constructor(){
         this.loadDeviceCache();
-        
-        let connectionTypes = [
-        ]
-        
-        connectionTypes.forEach((Connection)=> {
-            let connection = new Connection();
-            console.log("Registering Connection " + connection.name)
-            this.connections.push(connection)
-        })
     }
 
     /**
@@ -113,6 +104,11 @@ class ConnectionHandler {
         if(isDev) deviceList = deviceList.concat(this.getDummyData());
         
         return deviceList;
+    }
+
+    registerConnectionType(connectionType){
+        console.log("Registering Connection Type: " + connectionType.name);
+        this.connections.push(connectionType);
     }
 
     getDummyData() {
