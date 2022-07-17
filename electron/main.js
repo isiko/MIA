@@ -6,8 +6,6 @@ const SettingsHandler = require('./settings/SettingsHandler')
 const PluginHandler = require("./plugins/PluginHandler");
 const ConnectionHandler = require("./connections/ConnectionHandler");
 
-var handlers = []
-
 // Setup Grlobals
 global.isDev = require("electron-is-dev");
 
@@ -48,9 +46,9 @@ function createWindow() {
 app.whenReady().then(() => {
   console.log("App Ready");
   createWindow();
+  var handlers = []
 
   // Setup Settings
-  global.settings = undefined;
   global.settingsHandler = new SettingsHandler();
   handlers = handlers.concat(settingsHandler.handlers)
   
@@ -61,7 +59,6 @@ app.whenReady().then(() => {
   global.pluginHandler = new PluginHandler();
 
   // Setup Device Handling
-  global.deviceCache = undefined;
   global.connectionHandler = new ConnectionHandler();
   handlers = handlers.concat(connectionHandler.handlers)
 

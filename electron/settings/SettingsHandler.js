@@ -9,10 +9,10 @@ class SettingsHandler {
         {
             name: 'settings:get',
             handler: () => {
-                if(settings === undefined){
+                if(this.settings === undefined){
                     return loadSettings();
                 } else {
-                    return settings;
+                    return this.settings;
                 }
             },
         },
@@ -34,40 +34,40 @@ class SettingsHandler {
     
         if(fs.existsSync(settingsPath)){
             console.log("Settings File Exists");
-            global.settings = JSON.parse(fs.readFileSync(settingsPath));
+            this.settings = JSON.parse(fs.readFileSync(settingsPath));
         } else {
             console.log("Settings File Does Not Exist");
-            global.settings = this.getDefaultSettings();
+            this.settings = this.getDefaultSettings();
             this.saveSettings();
         }
-        return settings;
+        return this.settings;
     }
     
     changeSetting(settingIndex, sectionIndex, selectedIndex) {
-        settings[sectionIndex].settings[settingIndex].currentSetting = selectedIndex;
+        this.settings[sectionIndex].settings[settingIndex].currentSetting = selectedIndex;
         this.saveSettings();
         
-        console.log(`Set "${settings[sectionIndex].settings[settingIndex].name}" of section "${settings[sectionIndex].name}" to "${selectedIndex}"`);
+        console.log(`Set "${this.settings[sectionIndex].settings[settingIndex].name}" of section "${this.settings[sectionIndex].name}" to "${selectedIndex}"`);
     }
     
     saveSettings(){
         console.log("Saving Settings");
-        fs.writeFileSync(settingsPath, JSON.stringify(settings));
+        fs.writeFileSync(settingsPath, JSON.stringify(this.settings));
     }
     
     addSection(pSection){
         //Find a Section where the name is equal to section.name
-        const existingSection = settings.find((section) => section.name === pSection.name);
+        const existingSection = this.settings.find((section) => section.name === pSection.name);
         if(existingSection !== undefined){
-            const sectionIndex = settings.indexOf(existingSection);
+            const sectionIndex = this.settings.indexOf(existingSection);
             console.log("Section already exists");
             
-            settings[sectionIndex] = pSection;
+            this.settings[sectionIndex] = pSection;
             return new sectionHandler(sectionIndex);
         } else {
             console.log("Section does not exist");
-            settings.push(pSection);
-            return new sectionHandler(settings.indexOf(pSection));
+            this.settings.push(pSection);
+            return new sectionHandler(this.settings.indexOf(pSection));
         }
     }
     
@@ -129,11 +129,11 @@ class sectionHandler {
     }
 
     getSettings() {
-        return settings[this.section].settings;
+        return this.settings[this.section].settings;
     }
 
     updateSettings(settings) {
-        settings[this.section].settings = settings;
+        this.settings[this.section].settings = this.settings;
     }
 }
 

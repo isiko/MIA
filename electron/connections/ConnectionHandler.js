@@ -44,7 +44,7 @@ class ConnectionHandler {
 
     sendMessageToAllDevices(message){
         let deviceIDs = []
-        deviceCache.forEach((device) => {
+        this.deviceCache.forEach((device) => {
             deviceIDs.push(device.id)
         })
         this.sendMessage(message, deviceIDs)
@@ -57,7 +57,7 @@ class ConnectionHandler {
     registerNewDevice(name, type, deviceID) {
         console.log("Found new Device " + name)
 
-        deviceCache.push({
+        this.deviceCache.push({
             name: name,
             icon: type,
             id: deviceID,
@@ -72,19 +72,19 @@ class ConnectionHandler {
 
         if(fs.existsSync(deviceCachePath)){
             console.log("Found existing Device List");
-            global.deviceCache = JSON.parse(fs.readFileSync(deviceCachePath));
+            this.deviceCache = JSON.parse(fs.readFileSync(deviceCachePath));
         } else {
             console.log("Device List Does Not Exist");
-            global.deviceCache = [];
+            this.deviceCache = [];
             this.saveDeviceCache();
         }
 
-        return deviceCache;
+        return this.deviceCache;
     }
 
     saveDeviceCache() {
         console.log("Saving Device List");
-        fs.writeFileSync(deviceCachePath, JSON.stringify(deviceCache));
+        fs.writeFileSync(deviceCachePath, JSON.stringify(this.deviceCache));
         this.sendCacheToFrontend();
     }
 
@@ -95,11 +95,11 @@ class ConnectionHandler {
     }
 
     getDeviceList() {
-        if(deviceCache === undefined){
+        if(this.deviceCache === undefined){
             this.loadDeviceCache();
         }
 
-        let deviceList = deviceCache;
+        let deviceList = this.deviceCache;
         
         if(isDev) deviceList = deviceList.concat(this.getDummyData());
         
