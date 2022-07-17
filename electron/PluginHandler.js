@@ -12,7 +12,7 @@ class PluginHander {
             pluginName: pluginName,
             message: message,
         }
-        ConnectionHandler.sendMesssage(messageJSON, deviceID)
+        connectionHandler.sendMesssage(messageJSON, deviceID)
     }
 
     handleIncomingMessage(message, deviceID) {

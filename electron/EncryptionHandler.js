@@ -65,7 +65,7 @@ class EncryptionHandler {
             this.privateKey = privateKey
 
             this.saveKeyPair()
-            ConnectionHandler.spreadNewDeviceID();
+            connectionHandler.spreadNewDeviceID();
           });
     }
 

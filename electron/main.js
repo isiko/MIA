@@ -50,19 +50,19 @@ app.whenReady().then(() => {
 
   // Setup Settings
   global.settings = undefined;
-  global.SettingsHandler = require('./SettingsHandler')
-  handlers = handlers.concat(SettingsHandler.handlers)
+  global.settingsHandler = require('./SettingsHandler')
+  handlers = handlers.concat(settingsHandler.handlers)
   
   //Setup Encryption
-  global.EncryptionHandler = new EncryptionHandler();
+  global.encryptionHandler = new EncryptionHandler();
 
   //Setup Plugin Handling
-  global.PluginHandler = new PluginHandler();
+  global.pluginHandler = new PluginHandler();
 
   // Setup Device Handling
   global.deviceCache = undefined;
-  global.ConnectionHandler = new ConnectionHandler();
-  handlers = handlers.concat(global.ConnectionHandler.handlers)
+  global.connectionHandler = new ConnectionHandler();
+  handlers = handlers.concat(connectionHandler.handlers)
 
   console.log("Loading IPC Handlers");
   handlers.forEach(handler => {

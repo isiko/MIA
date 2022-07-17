@@ -35,7 +35,7 @@ class ConnectionHandler {
         }
 
         devices.forEach((device) => {
-            let encryptedMessage = EncryptionHandler.encryptMessage(device, message);
+            let encryptedMessage = encryptionHandler.encryptMessage(device, message);
             this.connections.forEach((connection) => {
                 connection.sendBytes(encryptedMessage, device)
             })
