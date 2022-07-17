@@ -1,9 +1,9 @@
 const path = require("path");
 const { app, BrowserWindow, ipcMain } = require("electron");
 
-const EncryptionHandler = require("./EncryptionHandler");
-const PluginHandler = require("./PluginHandler");
-const ConnectionHandler = require("./ConnectionHandler");
+const EncryptionHandler = require("./encryption/EncryptionHandler");
+const PluginHandler = require("./plugins/PluginHandler");
+const ConnectionHandler = require("./connections/ConnectionHandler");
 
 var handlers = []
 
@@ -50,7 +50,7 @@ app.whenReady().then(() => {
 
   // Setup Settings
   global.settings = undefined;
-  global.settingsHandler = require('./SettingsHandler')
+  global.settingsHandler = require('./settings/SettingsHandler')
   handlers = handlers.concat(settingsHandler.handlers)
   
   //Setup Encryption
@@ -71,7 +71,7 @@ app.whenReady().then(() => {
   })
 
   // Load Connection Types
-  require('./connectionTypes/connectionTypeList');
+  require('./connections/connectionTypeList');
 
   // Load Plugins
   require('./plugins/pluginList');
