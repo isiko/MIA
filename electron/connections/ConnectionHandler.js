@@ -57,7 +57,7 @@ class ConnectionHandler {
     registerNewDevice(name, type, deviceID) {
         console.log("Found new Device " + name)
 
-        if(this.deviceCache.find((device) => device.id === deviceID) === undefined){
+        if(this.isDeviceKnown(deviceID)){
             this.deviceCache.push({
                 name: name,
                 icon: type,
@@ -66,6 +66,10 @@ class ConnectionHandler {
     
             this.saveDeviceCache()
         }
+    }
+
+    isDeviceKnown(deviceID){
+        return this.deviceCache.find((device) => device.id === deviceID) === undefined && deviceID !== encryptionHandler.getDeviceID()
     }
 
     loadDeviceCache() {
