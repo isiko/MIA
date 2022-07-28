@@ -57,13 +57,15 @@ class ConnectionHandler {
     registerNewDevice(name, type, deviceID) {
         console.log("Found new Device " + name)
 
-        this.deviceCache.push({
-            name: name,
-            icon: type,
-            id: deviceID,
-        })
-
-        this.saveDeviceCache()
+        if(this.deviceCache.find((device) => device.id === deviceID) === undefined){
+            this.deviceCache.push({
+                name: name,
+                icon: type,
+                id: deviceID,
+            })
+    
+            this.saveDeviceCache()
+        }
     }
 
     loadDeviceCache() {
@@ -109,6 +111,21 @@ class ConnectionHandler {
     registerConnectionType(connectionType){
         console.log("Registering Connection Type: " + connectionType.name);
         this.connections.push(connectionType);
+    }
+
+    // TODO Make this not hardcoded
+    getOwnDeviceData() {
+        return {
+            name: "My Device (Laptop)",
+            id: encryptionHandler.getDeviceID(),
+            type: 0,
+        }
+    }
+
+    handleIncomingBytes(bytes, deviceID) {
+        console.log("Handling incoming Bytes");
+        let message = encryptionHandler.decryptMessage(bytes);
+        pluginHandler.handleIncomingMessage(message, deviceID);
     }
 
     getDummyData() {
