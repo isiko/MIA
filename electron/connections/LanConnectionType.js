@@ -123,11 +123,11 @@ class LanConnectionType extends ConenctionType {
             let tcpSocket = net.createConnection(tcpPort, this.ipAddr[deviceUUID]);
             tcpSocket.on('connect', () => this.#handleTcpSocket(tcpSocket));
             this.sockets[deviceUUID] = tcpSocket
+            return true;
         } else {
             console.log("Could not find IP Address for " + deviceUUID);
+            return false;
         }
-        
-
     }
 
     #handleDeviceCandidate(headers, statusCode, rinfo){
@@ -167,6 +167,16 @@ class LanConnectionType extends ConenctionType {
             messageType: "message",
             data: bytes
         }));
+    }
+
+    connect(deviceID){
+        let uuid = encryptionHandler.getUUID(deviceID);
+        return this.#openTCPConnection(uuid);
+    }
+
+    isConnected(deviceID){
+        let uuid = encryptionHandler.getUUID(deviceID);
+        return this.sockets[uuid] !== undefined;
     }
 }
 

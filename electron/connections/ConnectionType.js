@@ -6,7 +6,7 @@ class ConenctionType extends Plugin {
         connectionHandler.registerConnectionType(this)
     }
 
-    async startSearch(){}
+    startSearch(){}
 
     /**
      * Sends an encrypted Message to a specific Device
@@ -16,6 +16,10 @@ class ConenctionType extends Plugin {
     sendBytes(bytes, deviceID){}
 
     handleConnectionData(metaData){}
+
+    connect(deviceID){}
+
+    isConnected(deviceID){}
 }
 
 module.exports = ConenctionType;
