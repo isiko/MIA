@@ -3,10 +3,10 @@ const Plugin = require('./../plugins/Plugin')
 class ConenctionType extends Plugin {
     constructor(name){
         super(name)
-        ConnectionHandler.registerConnectionType(this)
+        connectionHandler.registerConnectionType(this)
     }
 
-    async startSearch(){}
+    startSearch(){}
 
     /**
      * Sends an encrypted Message to a specific Device
@@ -16,6 +16,10 @@ class ConenctionType extends Plugin {
     sendBytes(bytes, deviceID){}
 
     handleConnectionData(metaData){}
+
+    connect(deviceID){}
+
+    isConnected(deviceID){}
 }
 
 module.exports = ConenctionType;

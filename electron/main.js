@@ -1,11 +1,10 @@
 const path = require("path");
 const { app, BrowserWindow, ipcMain } = require("electron");
 
-const EncryptionHandler = require("./EncryptionHandler");
-const PluginHandler = require("./PluginHandler");
-const ConnectionHandler = require("./ConnectionHandler");
-
-var handlers = []
+const EncryptionHandler = require("./encryption/EncryptionHandler");
+const SettingsHandler = require('./settings/SettingsHandler')
+const PluginHandler = require("./plugins/PluginHandler");
+const ConnectionHandler = require("./connections/ConnectionHandler");
 
 // Setup Grlobals
 global.isDev = require("electron-is-dev");
@@ -47,22 +46,21 @@ function createWindow() {
 app.whenReady().then(() => {
   console.log("App Ready");
   createWindow();
+  var handlers = []
 
   // Setup Settings
-  global.settings = undefined;
-  global.SettingsHandler = require('./SettingsHandler')
-  handlers = handlers.concat(SettingsHandler.handlers)
+  global.settingsHandler = new SettingsHandler();
+  handlers = handlers.concat(settingsHandler.handlers)
   
   //Setup Encryption
-  global.EncryptionHandler = new EncryptionHandler();
+  global.encryptionHandler = new EncryptionHandler();
 
   //Setup Plugin Handling
-  global.PluginHandler = new PluginHandler();
+  global.pluginHandler = new PluginHandler();
 
   // Setup Device Handling
-  global.deviceCache = undefined;
-  global.ConnectionHandler = new ConnectionHandler();
-  handlers = handlers.concat(global.ConnectionHandler.handlers)
+  global.connectionHandler = new ConnectionHandler();
+  handlers = handlers.concat(connectionHandler.handlers)
 
   console.log("Loading IPC Handlers");
   handlers.forEach(handler => {
@@ -71,7 +69,7 @@ app.whenReady().then(() => {
   })
 
   // Load Connection Types
-  require('./connectionTypes/connectionTypeList');
+  require('./connections/connectionTypeList');
 
   // Load Plugins
   require('./plugins/pluginList');

@@ -3,10 +3,13 @@ const path = require('path');
 const crypto = require('crypto');
 const { app } = require('electron')
 const { safeStorage } = require("electron");
+const uuidV5 = require('uuid').v5;
 
 const basePath = path.join(app.getPath("appData"), app.getName(), 'keys');
 const privateKeyPath = path.join(basePath, "private.key");
 const publicKeyPath = path.join(basePath, "public.key");
+
+const uuidNamespace = "6ba7b811-9dad-11d1-80b4-00c04fd430c8";
 
 class EncryptionHandler {
     publicKey = undefined;
@@ -31,14 +34,16 @@ class EncryptionHandler {
     }
 
     encryptMessage(deviceID, message){
-        console.log("Encrypting Message");
+        console.log("Encrypting Message (DeviceID: " + this.getUUID(deviceID) + ")");
         let deviceKey = this.convertDeviceKeyToPublicKey(deviceID);
         let encryptedMessage = crypto.publicEncrypt(deviceKey, JSON.stringify(message));
         return encryptedMessage;
     }
 
     decryptMessage(message){
-        return crypto.privateDecrypt(this.#privateKey, message);
+        console.log("Decrypting Message");
+        let decryptedMessage = crypto.privateDecrypt(this.#privateKey, Buffer.from(message));
+        return decryptedMessage;
     }
 
     convertDeviceKeyToPublicKey(deviceKey){
@@ -49,24 +54,26 @@ class EncryptionHandler {
         return publicKey.export(this.publicKeyEncoding);
     }
 
+    getUUID(deviceID){
+        if (deviceID !== undefined)
+            return uuidV5(deviceID, uuidNamespace);
+        else
+            return uuidV5(this.getDeviceID(), uuidNamespace);
+    }
+
     generateKeyPair(){
         console.log("Generating new Key Pair");
 
         this.publicKey = undefined;
         this.privateKey = undefined;
 
-        crypto.generateKeyPair('rsa', {
-            modulusLength: 4096,
-          }, (err, publicKey, privateKey) => {
-            if(err) throw err;
+        let keyPair = crypto.generateKeyPairSync('rsa', { modulusLength: 4096, });
+        
+        // Save Keypair
+        this.publicKey = keyPair.publicKey
+        this.#privateKey = keyPair.privateKey
 
-            // Save Keypair
-            this.publicKey = publicKey
-            this.privateKey = privateKey
-
-            this.saveKeyPair()
-            ConnectionHandler.spreadNewDeviceID();
-          });
+        this.saveKeyPair()
     }
 
     /**
@@ -111,7 +118,13 @@ class EncryptionHandler {
 
     loadPrivateKey(){
         console.log("Loading Private Key from " + privateKeyPath);
-        this.privateKey = crypto.createPrivateKey(safeStorage.decryptString(fs.readFileSync(privateKeyPath)));
+        let keyString = fs.readFileSync(privateKeyPath);
+
+        if (safeStorage.isEncryptionAvailable()) {
+            keyString = safeStorage.decryptString(keyString);
+        }
+
+        this.#privateKey = crypto.createPrivateKey(keyString);
     }
     
     loadPublicKey(){
@@ -134,8 +147,12 @@ class EncryptionHandler {
     
     savePrivateKey(){
         let keyString = this.#privateKey.export(this.privateKeyEncoding);
-        let encryptedKey = safeStorage.encryptString(keyString);
-        fs.writeFile(privateKeyPath, encryptedKey, (err) => {
+        
+        if (safeStorage.isEncryptionAvailable()) {
+            keyString = safeStorage.encryptString(keyString);
+        }
+
+        fs.writeFile(privateKeyPath, keyString, (err) => {
             if (err) throw err
         })
     }

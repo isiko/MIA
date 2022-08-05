@@ -7,7 +7,7 @@ class Plugin {
         this.name = name
         this.cacheHandler = new CacheHandler('plugin_' + this.name);
 
-        this.sendMessage = PluginHandler.registerPlugin(this)
+        this.sendMessage = pluginHandler.registerPlugin(this)
     }
 
     handleIncomingMessage(message, deviceID){}

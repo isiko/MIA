@@ -35,7 +35,7 @@ class ConnectionHandler {
         }
 
         devices.forEach((device) => {
-            let encryptedMessage = EncryptionHandler.encryptMessage(device, message);
+            let encryptedMessage = encryptionHandler.encryptMessage(device, message);
             this.connections.forEach((connection) => {
                 connection.sendBytes(encryptedMessage, device)
             })
@@ -44,7 +44,7 @@ class ConnectionHandler {
 
     sendMessageToAllDevices(message){
         let deviceIDs = []
-        deviceCache.forEach((device) => {
+        this.deviceCache.forEach((device) => {
             deviceIDs.push(device.id)
         })
         this.sendMessage(message, deviceIDs)
@@ -57,13 +57,19 @@ class ConnectionHandler {
     registerNewDevice(name, type, deviceID) {
         console.log("Found new Device " + name)
 
-        deviceCache.push({
-            name: name,
-            icon: type,
-            id: deviceID,
-        })
+        if(this.isDeviceKnown(deviceID)){
+            this.deviceCache.push({
+                name: name,
+                icon: type,
+                id: deviceID,
+            })
+    
+            this.saveDeviceCache()
+        }
+    }
 
-        this.saveDeviceCache()
+    isDeviceKnown(deviceID){
+        return this.deviceCache.find((device) => device.id === deviceID) === undefined && deviceID !== encryptionHandler.getDeviceID()
     }
 
     loadDeviceCache() {
@@ -72,19 +78,19 @@ class ConnectionHandler {
 
         if(fs.existsSync(deviceCachePath)){
             console.log("Found existing Device List");
-            global.deviceCache = JSON.parse(fs.readFileSync(deviceCachePath));
+            this.deviceCache = JSON.parse(fs.readFileSync(deviceCachePath));
         } else {
             console.log("Device List Does Not Exist");
-            global.deviceCache = [];
+            this.deviceCache = [];
             this.saveDeviceCache();
         }
 
-        return deviceCache;
+        return this.deviceCache;
     }
 
     saveDeviceCache() {
         console.log("Saving Device List");
-        fs.writeFileSync(deviceCachePath, JSON.stringify(deviceCache));
+        fs.writeFileSync(deviceCachePath, JSON.stringify(this.deviceCache));
         this.sendCacheToFrontend();
     }
 
@@ -95,11 +101,11 @@ class ConnectionHandler {
     }
 
     getDeviceList() {
-        if(deviceCache === undefined){
+        if(this.deviceCache === undefined){
             this.loadDeviceCache();
         }
 
-        let deviceList = deviceCache;
+        let deviceList = this.deviceCache;
         
         if(isDev) deviceList = deviceList.concat(this.getDummyData());
         
@@ -109,6 +115,21 @@ class ConnectionHandler {
     registerConnectionType(connectionType){
         console.log("Registering Connection Type: " + connectionType.name);
         this.connections.push(connectionType);
+    }
+
+    // TODO Make this not hardcoded
+    getOwnDeviceData() {
+        return {
+            name: "My Device (Laptop)",
+            id: encryptionHandler.getDeviceID(),
+            type: 0,
+        }
+    }
+
+    handleIncomingBytes(bytes, deviceID) {
+        console.log("Handling incoming Bytes");
+        let message = encryptionHandler.decryptMessage(bytes);
+        pluginHandler.handleIncomingMessage(message, deviceID);
     }
 
     getDummyData() {
