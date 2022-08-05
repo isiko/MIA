@@ -74,7 +74,6 @@ class EncryptionHandler {
         this.#privateKey = keyPair.privateKey
 
         this.saveKeyPair()
-        connectionHandler.spreadNewDeviceID();
     }
 
     /**
@@ -119,7 +118,13 @@ class EncryptionHandler {
 
     loadPrivateKey(){
         console.log("Loading Private Key from " + privateKeyPath);
-        this.#privateKey = crypto.createPrivateKey(safeStorage.decryptString(fs.readFileSync(privateKeyPath)));
+        let keyString = fs.readFileSync(privateKeyPath);
+
+        if (safeStorage.isEncryptionAvailable()) {
+            keyString = safeStorage.decryptString(keyString);
+        }
+
+        this.#privateKey = crypto.createPrivateKey(keyString);
     }
     
     loadPublicKey(){
@@ -142,8 +147,12 @@ class EncryptionHandler {
     
     savePrivateKey(){
         let keyString = this.#privateKey.export(this.privateKeyEncoding);
-        let encryptedKey = safeStorage.encryptString(keyString);
-        fs.writeFile(privateKeyPath, encryptedKey, (err) => {
+        
+        if (safeStorage.isEncryptionAvailable()) {
+            keyString = safeStorage.encryptString(keyString);
+        }
+
+        fs.writeFile(privateKeyPath, keyString, (err) => {
             if (err) throw err
         })
     }
