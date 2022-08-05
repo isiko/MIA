@@ -1,12 +1,13 @@
 const ConenctionType = require("./ConnectionType");
 const net = require('net');
 const SSDP = require('node-ssdp');
+const { app } = require("electron");
 
 const deviceURN = 'urn:mobile-integration-application:device'
 const tcpPort = 1371
 
 class LanConnectionType extends ConenctionType {
-    ipAddr = {};
+    ipAddr;
 
     ssdpClient
     ssdpServer
@@ -17,10 +18,26 @@ class LanConnectionType extends ConenctionType {
     constructor(){
         super("lan");
 
+        console.log("Loading IP Address Cache");
+        this.ipAddr = this.cacheHandler.cache.ipAddr;
+        this.ipAddr = this.ipAddr === undefined ? {} : this.ipAddr;
+        console.log(this.ipAddr);
+
         this.#setupTCP();
         this.#setupSSDP();
 
         this.startSearch();
+        
+        app.on('before-quit', () => {
+            console.log("Saving IP Cache");
+            this.cacheHandler.cache = {
+                ipAddr: this.ipAddr,
+            }
+            this.cacheHandler.saveCache();
+
+            console.log("Stopping SSDP Server");
+            this.server.stop()
+        })
     }
 
     #setupTCP(){
@@ -46,11 +63,6 @@ class LanConnectionType extends ConenctionType {
         });
         this.ssdpServer.addUSN(deviceURN);
         this.ssdpServer.start()
-
-        process.on('exit', () => {
-            console.log("Stopping SSDP Server");
-            this.server.stop()
-        })
     }
 
     #handleTcpSocket(socket){
