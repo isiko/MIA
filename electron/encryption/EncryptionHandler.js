@@ -67,18 +67,14 @@ class EncryptionHandler {
         this.publicKey = undefined;
         this.privateKey = undefined;
 
-        crypto.generateKeyPair('rsa', {
-            modulusLength: 4096,
-          }, (err, publicKey, privateKey) => {
-            if(err) throw err;
+        let keyPair = crypto.generateKeyPairSync('rsa', { modulusLength: 4096, });
+        
+        // Save Keypair
+        this.publicKey = keyPair.publicKey
+        this.#privateKey = keyPair.privateKey
 
-            // Save Keypair
-            this.publicKey = publicKey
-            this.privateKey = privateKey
-
-            this.saveKeyPair()
-            connectionHandler.spreadNewDeviceID();
-          });
+        this.saveKeyPair()
+        connectionHandler.spreadNewDeviceID();
     }
 
     /**
