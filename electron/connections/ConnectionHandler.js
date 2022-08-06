@@ -7,7 +7,7 @@ class ConnectionHandler {
     handlers = [
         {
             name: 'devices:get',
-            handler: () => this.getDeviceList()
+            handler: () => this.getDeviceCache()
         }
     ]
 
@@ -15,6 +15,17 @@ class ConnectionHandler {
 
     constructor(){
         this.cacheHandler = new CacheHandler("deviceCache", []);
+    }
+
+    /** 
+     * Sends Message to all Connected Devices
+     */
+    sendMessageToAllDevices(message){
+        let deviceIDs = []
+        this.cacheHandler.cache.forEach((device) => {
+            deviceIDs.push(device.id)
+        })
+        this.sendMessage(message, deviceIDs)
     }
 
     /**
@@ -41,18 +52,36 @@ class ConnectionHandler {
         })
     }
 
-    sendMessageToAllDevices(message){
-        let deviceIDs = []
-        this.cacheHandler.cache.forEach((device) => {
-            deviceIDs.push(device.id)
-        })
-        this.sendMessage(message, deviceIDs)
+    /**
+     * Registers a new Connectiontype with the Connectionhandler.
+     * This is done by the super constructor of the ConnectionType class.
+     * @param {ConnectionType} connectionType the new ConnectionType
+     */
+    registerConnectionType(connectionType){
+        console.log("Registering Connection Type: " + connectionType.name);
+        this.connections.push(connectionType);
     }
 
+    /**
+     * Handles Incoming Messages. This Method should be called from the connectionTypes when a Message is recieved
+     * @param {Buffer} bytes the raw, encoded Message recieved
+     * @param {String} deviceID The DeviceID of the Sending device
+     */
+    handleIncomingBytes(bytes, deviceID) {
+        console.log("Handling incoming Bytes");
+        let message = encryptionHandler.decryptMessage(bytes);
+        pluginHandler.handleIncomingMessage(message, deviceID);
+    }
+
+    /**
+     * Notifys all ConnectionTypes to start Searching for new Devices.
+     * If a device is found, it is registered via the [registerNewDevice] Method
+     */
     startSearch(){
         this.connections.forEach((connection) => connection.startSearch())
     }
 
+    //TODO Make this more of an update function
     registerNewDevice(name, type, deviceID) {
         console.log("Found new Device " + name)
 
@@ -63,41 +92,32 @@ class ConnectionHandler {
                 id: deviceID,
             })
     
-            this.saveDeviceCache()
+            this.updateDeviceCache()
         }
     }
 
+    /**
+     * Can be used to check if a device is allready registered
+     * @param {String} deviceID The DeviceID to check for
+     * @returns true if the device is registered or the deviceID matches the own ID
+     */
     isDeviceKnown(deviceID){
         return this.cacheHandler.cache.find((device) => device.id === deviceID) === undefined && deviceID !== encryptionHandler.getDeviceID()
     }
 
-    loadDeviceCache() {
-        console.log("Loading Device Cache");
-        console.log("Device Cache Path: " + deviceCachePath);
-
-        if(fs.existsSync(deviceCachePath)){
-            console.log("Found existing Device List");
-            this.deviceCache = JSON.parse(fs.readFileSync(deviceCachePath));
-        } else {
-            console.log("Device List Does Not Exist");
-            this.deviceCache = [];
-            this.saveDeviceCache();
-        }
-
-        return this.deviceCache;
-    }
-
-    saveDeviceCache() {
+    /**
+     * Saves the current Device Cache and sends it to thr frontend
+     */
+    updateDeviceCache() {
         console.log("Saving Device List");
         this.cacheHandler.saveCache()
 
-    sendCacheToFrontend(){
-        // TODO: Send devices to Frontend
         console.log("Sending Device Cache to Frontend");
-        mainWindow.webContents.send('devices:update', this.getDeviceList());
+        mainWindow.webContents.send('devices:update', this.getDeviceCache());
     }
 
-    getDeviceList() {
+    //TODO remove dummy data
+    getDeviceCache() {
         let deviceList = this.cacheHandler.cache;
 
         if(isDev) deviceList = deviceList.concat(this.getDummyData());
@@ -105,12 +125,12 @@ class ConnectionHandler {
         return deviceList;
     }
 
-    registerConnectionType(connectionType){
-        console.log("Registering Connection Type: " + connectionType.name);
-        this.connections.push(connectionType);
-    }
-
     //TODO Make deviceType Changable via Settings
+    /**
+     * Can be used to fetch information about the device MIA is running on.
+     * Should be used by the Connectiontypes during the Handshake.
+     * @returns deviceData for the Device MIA is running on
+     */
     getOwnDeviceData() {
         return {
             name: os.hostname(),
@@ -119,12 +139,7 @@ class ConnectionHandler {
         }
     }
 
-    handleIncomingBytes(bytes, deviceID) {
-        console.log("Handling incoming Bytes");
-        let message = encryptionHandler.decryptMessage(bytes);
-        pluginHandler.handleIncomingMessage(message, deviceID);
-    }
-
+    //TODO remove dummy data
     getDummyData() {
         return [
             {
