@@ -1,7 +1,6 @@
-const fs = require('fs');
-const { app } = require('electron');
+const os = require('os');
 
-const deviceCachePath = app.getPath("userData") + "/deviceCache.json";
+const CacheHandler = require('./../CacheHandler')
 
 class ConnectionHandler {
 
@@ -15,7 +14,7 @@ class ConnectionHandler {
     connections = []
 
     constructor(){
-        this.loadDeviceCache();
+        this.cacheHandler = new CacheHandler("deviceCache", []);
     }
 
     /**
@@ -44,7 +43,7 @@ class ConnectionHandler {
 
     sendMessageToAllDevices(message){
         let deviceIDs = []
-        this.deviceCache.forEach((device) => {
+        this.cacheHandler.cache.forEach((device) => {
             deviceIDs.push(device.id)
         })
         this.sendMessage(message, deviceIDs)
@@ -58,7 +57,7 @@ class ConnectionHandler {
         console.log("Found new Device " + name)
 
         if(this.isDeviceKnown(deviceID)){
-            this.deviceCache.push({
+            this.cacheHandler.cache.push({
                 name: name,
                 icon: type,
                 id: deviceID,
@@ -69,7 +68,7 @@ class ConnectionHandler {
     }
 
     isDeviceKnown(deviceID){
-        return this.deviceCache.find((device) => device.id === deviceID) === undefined && deviceID !== encryptionHandler.getDeviceID()
+        return this.cacheHandler.cache.find((device) => device.id === deviceID) === undefined && deviceID !== encryptionHandler.getDeviceID()
     }
 
     loadDeviceCache() {
@@ -90,9 +89,7 @@ class ConnectionHandler {
 
     saveDeviceCache() {
         console.log("Saving Device List");
-        fs.writeFileSync(deviceCachePath, JSON.stringify(this.deviceCache));
-        this.sendCacheToFrontend();
-    }
+        this.cacheHandler.saveCache()
 
     sendCacheToFrontend(){
         // TODO: Send devices to Frontend
@@ -101,12 +98,8 @@ class ConnectionHandler {
     }
 
     getDeviceList() {
-        if(this.deviceCache === undefined){
-            this.loadDeviceCache();
-        }
+        let deviceList = this.cacheHandler.cache;
 
-        let deviceList = this.deviceCache;
-        
         if(isDev) deviceList = deviceList.concat(this.getDummyData());
         
         return deviceList;
