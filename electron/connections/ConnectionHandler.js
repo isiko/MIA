@@ -110,10 +110,10 @@ class ConnectionHandler {
         this.connections.push(connectionType);
     }
 
-    // TODO Make this not hardcoded
+    //TODO Make deviceType Changable via Settings
     getOwnDeviceData() {
         return {
-            name: "My Device (Laptop)",
+            name: os.hostname(),
             id: encryptionHandler.getDeviceID(),
             type: 0,
         }
