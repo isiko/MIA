@@ -1,70 +1,27 @@
-# Getting Started with Create React App
+# MIA
+The Mobile-Integration-Application (short MIA) is my attempt to recreate the integration Apple has created between its Devices (i.e. iPads, MacBooks, ...) for other Operating Systems. It should be noted that the Goal is not to 100% recreate Apples System 1:1, as that would (as far as I know) not be Impossible.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Installation
+The App is still a Work in Progress, so the Installation Guide will be added as soon as it is usable.
 
-## Available Scripts
+## Development
+This Project is currently in a very early Development phase, so currently it's not that easy to help with development. If you do want to help though, don't hesitate to send me an E-Mail, maybe it'll work fine. Especially the EncryptionHandler should be checked as I'm not that experienced with encryption.
 
-In the project directory, you can run:
+## Goals
+### Usability
+You should not have to perform some kind of ritual to connect your Devices. Once Paired, everything should work automatically and without any action from the user. Also, there should be fallbacks to ensure a good connection even if one connection type fails.
 
-### `npm start`
+I'm planning to implement the following connection types (more might be added):
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- [x] IP/TCP
+- [ ] Bluetooth
+- [ ] Serial (i.e. USB)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Privacy
+Nobody should know what your devices are doing. Although I might add features like Location sharing, you should always be able to adjust gets to know what.
 
-### `npm test`
+### Platform Independence
+The problem to solve is, that Apple's System only works on Apple Devices, so the solution should not be a system that also just works on one platform. I'm developing on Ubuntu but am planning to also have support for Windows and other Linux Distros.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Encryption
+Everything sent between devices should be Encrypted by default. Currently, this is done using RSA, but as I don't have a lot of experience in this field help is definitely wanted here.
