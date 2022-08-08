@@ -11,7 +11,7 @@ class ConnectionHandler {
         },
         {
             name: 'devices:getMessageLog',
-            handler: (event, deviceID) => this.messageLog[this.getDeviceCache()[deviceID].id] === undefined ? [] : this.messageLog[this.getDeviceCache()[deviceID].id]
+            handler: (event, deviceID) => this.messageLog[deviceID] === undefined ? [] : this.messageLog[deviceID]
         }
     ]
 
@@ -20,7 +20,7 @@ class ConnectionHandler {
     messageLog = {}
 
     constructor(){
-        this.cacheHandler = new CacheHandler("deviceCache", []);
+        this.cacheHandler = new CacheHandler("deviceCache");
     }
 
     /** 
@@ -28,9 +28,9 @@ class ConnectionHandler {
      */
     sendMessageToAllDevices(message){
         let deviceIDs = []
-        this.cacheHandler.cache.forEach((device) => {
-            deviceIDs.push(device.id)
-        })
+        for(let device in this.getDeviceCache()){
+            deviceIDs.push(this.getDeviceCache()[device].id)
+        }
         this.sendMessage(message, deviceIDs)
     }
 
@@ -51,11 +51,21 @@ class ConnectionHandler {
         }
 
         devices.forEach((device) => {
-            this.logMessage(message, device, "sendt")
-            let encryptedMessage = encryptionHandler.encryptMessage(device, message);
-            this.connections.forEach((connection) => {
-                connection.sendBytes(encryptedMessage, device)
-            })
+            
+            let encryptedMessage = undefined
+            try {
+                let deviceKey = this.getDeviceCache()[encryptionHandler.getUUID(device)].id
+                encryptedMessage = encryptionHandler.encryptMessage(deviceKey, message);
+            } catch (error) {
+                console.log("Error while encrypting message: " + error);
+            }
+            
+            if(encryptedMessage !== undefined){
+                this.connections.forEach((connection) => {
+                    connection.sendBytes(encryptedMessage, device)
+                })
+                this.logMessage(message, device, "sendt")
+            }
         })
     }
 
@@ -83,11 +93,12 @@ class ConnectionHandler {
     }
 
     logMessage(message, deviceID, type){
-        if (this.messageLog[deviceID] === undefined) {
-            this.messageLog[deviceID] = []
+        let uuid = encryptionHandler.getUUID(deviceID)
+        if (this.messageLog[uuid] === undefined) {
+            this.messageLog[uuid] = []
         }
 
-        this.messageLog[deviceID].push({
+        this.messageLog[uuid].push({
             type: type,
             message: message,
             timestamp: Date.now(),
@@ -107,11 +118,11 @@ class ConnectionHandler {
         console.log("Found new Device " + name)
 
         if(this.isDeviceKnown(deviceID)){
-            this.cacheHandler.cache.push({
+            this.cacheHandler.cache[deviceID] = {
                 name: name,
                 icon: type,
-                id: deviceID,
-            })
+                id: deviceID
+            }
     
             this.updateDeviceCache()
         }
@@ -123,7 +134,7 @@ class ConnectionHandler {
      * @returns true if the device is registered or the deviceID matches the own ID
      */
     isDeviceKnown(deviceID){
-        return this.cacheHandler.cache.find((device) => device.id === deviceID) === undefined && deviceID !== encryptionHandler.getDeviceID()
+        return this.getDeviceCache()[deviceID] === undefined && deviceID !== encryptionHandler.getDeviceID()
     }
 
     /**
@@ -139,10 +150,22 @@ class ConnectionHandler {
 
     //TODO remove dummy data
     getDeviceCache() {
-        let deviceList = this.cacheHandler.cache;
+        let deviceList = {};
 
-        if(isDev) deviceList = deviceList.concat(this.getDummyData());
+        for(let device in this.cacheHandler.cache){
+            let uuid = encryptionHandler.getUUID(device)
+            deviceList[uuid] = this.cacheHandler.cache[device]
+            deviceList[uuid].id = device
+        }
         
+        // if (isDev) {
+        //     this.getDummyData().forEach((device) => {
+        //         let uuid = encryptionHandler.getUUID(device.id)
+        //         deviceList[uuid] = device
+        //         deviceList[uuid].id = undefined
+        //     })
+        // }
+
         return deviceList;
     }
 
@@ -166,7 +189,7 @@ class ConnectionHandler {
             {
                 icon: 0,
                 name: "Device 1",
-                id: "asdfasdfasdf1"
+                id: ""
             },
             {
                 icon: 1,

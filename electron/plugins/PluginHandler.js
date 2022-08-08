@@ -23,7 +23,7 @@ class PluginHander {
     handleIncomingMessage(message, deviceID) {
         this.plugins.forEach((plugin) => {
             if (plugin.name === message.pluginName){
-                plugin.handleIncomingMessage(message, deviceID)
+                plugin.handleIncomingMessage(message.message, deviceID)
             }
         })
     }
