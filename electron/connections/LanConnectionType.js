@@ -89,6 +89,7 @@ class LanConnectionType extends ConenctionType {
                         console.log(`Got Device Data from ${message.data.name} (${encryptionHandler.getUUID(message.data.id)})`);
                         connectionHandler.registerNewDevice(message.data.name, message.data.type, message.data.id);
                         uuid = encryptionHandler.getUUID(message.data.id);
+                        deviceID = message.data.id;
                         this.sockets[uuid] = socket;
                         break;
                     case "message":

@@ -75,8 +75,9 @@ class ConnectionHandler {
      * @param {String} deviceID The DeviceID of the Sending device
      */
     handleIncomingBytes(bytes, deviceID) {
-        console.log("Handling incoming Bytes");
-        let message = encryptionHandler.decryptMessage(bytes);
+        console.log("Handling incoming Bytes from " + encryptionHandler.getUUID(deviceID));
+        let message = JSON.parse(encryptionHandler.decryptMessage(bytes).toString());
+
         this.logMessage(message, deviceID, "recieved")
         pluginHandler.handleIncomingMessage(message, deviceID);
     }
