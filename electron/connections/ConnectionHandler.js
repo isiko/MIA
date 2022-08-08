@@ -8,10 +8,16 @@ class ConnectionHandler {
         {
             name: 'devices:get',
             handler: () => this.getDeviceCache()
+        },
+        {
+            name: 'devices:getMessageLog',
+            handler: (event, deviceID) => this.messageLog[this.getDeviceCache()[deviceID].id] === undefined ? [] : this.messageLog[this.getDeviceCache()[deviceID].id]
         }
     ]
 
     connections = []
+
+    messageLog = {}
 
     constructor(){
         this.cacheHandler = new CacheHandler("deviceCache", []);
@@ -45,6 +51,7 @@ class ConnectionHandler {
         }
 
         devices.forEach((device) => {
+            this.logMessage(message, device, "sendt")
             let encryptedMessage = encryptionHandler.encryptMessage(device, message);
             this.connections.forEach((connection) => {
                 connection.sendBytes(encryptedMessage, device)
@@ -70,7 +77,20 @@ class ConnectionHandler {
     handleIncomingBytes(bytes, deviceID) {
         console.log("Handling incoming Bytes");
         let message = encryptionHandler.decryptMessage(bytes);
+        this.logMessage(message, deviceID, "recieved")
         pluginHandler.handleIncomingMessage(message, deviceID);
+    }
+
+    logMessage(message, deviceID, type){
+        if (this.messageLog[deviceID] === undefined) {
+            this.messageLog[deviceID] = []
+        }
+
+        this.messageLog[deviceID].push({
+            type: type,
+            message: message,
+            timestamp: Date.now(),
+        })
     }
 
     /**
