@@ -107,25 +107,28 @@ class ConnectionHandler {
 
     /**
      * Notifys all ConnectionTypes to start Searching for new Devices.
-     * If a device is found, it is registered via the [registerNewDevice] Method
+     * If a device is found, it is registered via the [updateDevice] Method
      */
     startSearch(){
         this.connections.forEach((connection) => connection.startSearch())
     }
 
-    //TODO Make this more of an update function
-    registerNewDevice(name, type, deviceID) {
+    /**
+     * Updates a given Device in the Device Cache. If the Device was not known before, it is registered.
+     * @param {string} name Hostname of the Device
+     * @param {integer} type Type of the Device
+     * @param {Key String} deviceID The DeviceID of the Device
+     */
+    updateDevice(name, type, deviceID) {
         console.log("Found new Device " + name)
 
-        if(this.isDeviceUnknown(deviceID)){
-            this.cacheHandler.cache[deviceID] = {
-                name: name,
-                icon: type,
-                id: deviceID
-            }
-    
-            this.updateDeviceCache()
+        this.cacheHandler.cache[deviceID] = {
+            name: name,
+            icon: type,
+            id: deviceID
         }
+
+        this.updateDeviceCache()
     }
 
     /**
