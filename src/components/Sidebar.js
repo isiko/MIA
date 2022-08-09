@@ -12,15 +12,24 @@ class Sidebar extends Component {
         }
     }
 
+    deviceCacheToArray(deviceCache){
+        let devices = []
+        for(let key in deviceCache){
+            deviceCache[key].id = key
+            devices.push(deviceCache[key])
+        }
+        return devices
+    }
+
     componentDidMount(){
         window.devices.get().then((devices) => {
             this.setState({
-                devices: devices
+                devices: this.deviceCacheToArray(devices)
             })
         })
         
         window.devices.onUpdate((_event, devices) => {
-            this.setState({devices: devices})
+            this.setState({devices: this.deviceCacheToArray(devices)})
         })
     }
     //TODO Make this Scrollable
@@ -34,8 +43,9 @@ class Sidebar extends Component {
                 </div>
                 <div className=''>
                     {
+
                         this.state.devices.map((device, index) => {
-                            return <SidebarIcon icon={device.icon} text={device.name} id={index} key={index} />
+                            return <SidebarIcon icon={device.icon} text={device.name} id={device.id} key={index} />
                         })
                     }
                 </div>

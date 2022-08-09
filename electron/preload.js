@@ -7,6 +7,7 @@ contextBridge.exposeInMainWorld('settings', {
 
 contextBridge.exposeInMainWorld('devices', {
   get: () => ipcRenderer.invoke('devices:get'),
+  getMessageLog: (deviceID) => ipcRenderer.invoke('devices:getMessageLog', deviceID),
   onUpdate: (callback) => ipcRenderer.on('devices:update', callback),
 })
 

@@ -12,13 +12,18 @@ class PluginHander {
             pluginName: pluginName,
             message: message,
         }
-        connectionHandler.sendMesssage(messageJSON, deviceID)
+
+        if(deviceID !== undefined){
+            connectionHandler.sendMesssage(messageJSON, deviceID)
+        } else {
+            connectionHandler.sendMessageToAllDevices(messageJSON)
+        }
     }
 
     handleIncomingMessage(message, deviceID) {
         this.plugins.forEach((plugin) => {
             if (plugin.name === message.pluginName){
-                plugin.handleIncomingMessage(message, deviceID)
+                plugin.handleIncomingMessage(message.message, deviceID)
             }
         })
     }
