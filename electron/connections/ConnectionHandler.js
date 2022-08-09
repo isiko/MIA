@@ -117,7 +117,7 @@ class ConnectionHandler {
     registerNewDevice(name, type, deviceID) {
         console.log("Found new Device " + name)
 
-        if(this.isDeviceKnown(deviceID)){
+        if(this.isDeviceUnknown(deviceID)){
             this.cacheHandler.cache[deviceID] = {
                 name: name,
                 icon: type,
@@ -133,7 +133,7 @@ class ConnectionHandler {
      * @param {String} deviceID The DeviceID to check for
      * @returns true if the device is registered or the deviceID matches the own ID
      */
-    isDeviceKnown(deviceID){
+    isDeviceUnknown(deviceID){
         return this.getDeviceCache()[deviceID] === undefined && deviceID !== encryptionHandler.getDeviceID()
     }
 
