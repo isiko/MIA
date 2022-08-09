@@ -148,7 +148,6 @@ class ConnectionHandler {
         mainWindow.webContents.send('devices:update', this.getDeviceCache());
     }
 
-    //TODO remove dummy data
     getDeviceCache() {
         let deviceList = {};
 
@@ -158,14 +157,6 @@ class ConnectionHandler {
             deviceList[uuid].id = device
         }
         
-        // if (isDev) {
-        //     this.getDummyData().forEach((device) => {
-        //         let uuid = encryptionHandler.getUUID(device.id)
-        //         deviceList[uuid] = device
-        //         deviceList[uuid].id = undefined
-        //     })
-        // }
-
         return deviceList;
     }
 
@@ -181,32 +172,6 @@ class ConnectionHandler {
             id: encryptionHandler.getDeviceID(),
             type: 0,
         }
-    }
-
-    //TODO remove dummy data
-    getDummyData() {
-        return [
-            {
-                icon: 0,
-                name: "Device 1",
-                id: ""
-            },
-            {
-                icon: 1,
-                name: "Device 2",
-                id: "asdfasdfasdf2"
-            },
-            {
-                icon: 2,
-                name: "Device 3",
-                id: "asdfasdfasdf3"
-            },
-            {
-                icon: 2,
-                name: "Device 4",
-                id: "asdfasdfasdf4"
-            }
-        ]
     }
 }
 
