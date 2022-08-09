@@ -177,7 +177,7 @@ class LanConnectionType extends ConenctionType {
 
     isConnected(deviceID){
         let uuid = encryptionHandler.getUUID(deviceID);
-        return this.sockets[uuid] !== undefined;
+        return this.sockets[uuid] !== undefined && this.sockets[uuid].writable === true && this.sockets[uuid].destroyed === false && this.sockets[uuid].connecting === false;
     }
 }
 

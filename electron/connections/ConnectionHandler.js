@@ -106,6 +106,24 @@ class ConnectionHandler {
     }
 
     /**
+     * Returns the last time a message was recieved from a device
+     * @param {string} deviceID The DeviceID to get the last seen of
+     * @returns timestamp of the last recieved message from the device
+     */
+    getLastSeen(deviceID){
+        let uuid = encryptionHandler.getUUID(deviceID)
+        if (this.messageLog[uuid] === undefined) {
+            return -1
+        } else {
+            for(let i = this.messageLog[uuid].length - 1; i >= 0; i--){
+                if(this.messageLog[uuid][i].type === "recieved"){
+                    return this.messageLog[uuid][i].timestamp
+                }
+            }
+        }
+    }
+
+    /**
      * Notifys all ConnectionTypes to start Searching for new Devices.
      * If a device is found, it is registered via the [updateDevice] Method
      */
@@ -129,6 +147,25 @@ class ConnectionHandler {
         }
 
         this.updateDeviceCache()
+    }
+
+    /**
+     * Returns a report of the current Connection Status
+     * @param {strubg} deviceID The DeviceID to generate the Report for
+     * @returns some basic information about the device Connection
+     */
+    getDeviceConnectionStatus(deviceID){
+        let connectionAmount = 0;
+        this.connections.forEach((connection) => {
+            if(connection.isConnected(deviceID)){
+                connectionAmount++
+            }
+        })
+
+        return {
+            connections: connectionAmount,
+            lastSeen: this.getLastSeen(deviceID)
+        }
     }
 
     /**
