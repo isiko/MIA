@@ -11,7 +11,7 @@ class ConnectionHandler {
         },
         {
             name: 'devices:getMessageLog',
-            handler: (event, deviceID) => this.messageLog[deviceID] === undefined ? [] : this.messageLog[deviceID]
+            handler: (event, deviceID, callback) => this.messageLog[deviceID] === undefined ? [] : this.messageLog[deviceID]
         }
     ]
 
