@@ -51,6 +51,11 @@ class ConnectionHandler {
         }
 
         devices.forEach((device) => {
+            // Check if the device is connected
+            if (this.getDeviceConnectionStatus(device).connections <= 0) {
+                console.log("Device is not connected")
+                return
+            }
             
             let encryptedMessage = undefined
             try {
