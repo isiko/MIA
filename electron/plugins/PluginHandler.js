@@ -6,25 +6,28 @@ class PluginHander {
 
     handlers = [
         {
-            name: 'plugins:getStats',
+            name: 'plugins:getData',
             handler: (event, deviceID) => {
-                let stats = []
+                let data = []
                 this.plugins.forEach((plugin) => {
+                    let pluginData = plugin.getData(deviceID)
                     let pluginStats = plugin.getStats(deviceID)
-                    
-                    if (pluginStats !== undefined && pluginStats.length > 0) {
+
+                    if (pluginStats !== undefined) {
                         for (let stat of pluginStats)
                             stat.callback = undefined
-
-                        stats.push({
-                            pluginName: plugin.name,
-                            stats: pluginStats,
-                        })
                     }
+
+
+                    data.push({
+                        pluginName: plugin.name,
+                        stats: pluginStats,
+                        data: pluginData,
+                    })
                 })
-                return stats
+                return data
             }
-        }
+        },
     ]
 
     registerPlugin(plugin){

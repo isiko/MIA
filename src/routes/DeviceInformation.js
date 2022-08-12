@@ -14,7 +14,8 @@ export default function DeviceInformation() {
     setState({deviceLog: log, plugins: state.plugins})
   })
 
-  window.plugins.getStats(id).then((plugins) => {
+  window.plugins.getData(id).then((plugins) => {
+    // console.log(state.plugins[1].data)
     setState({deviceLog: state.deviceLog, plugins: plugins})
   })
 
@@ -30,10 +31,12 @@ export default function DeviceInformation() {
             {
               state.plugins.map((plugin) => {
                 let stats = []
-                plugin.stats.map((stat, index) => {
-                  stats.push(<div className='bg-purple-500 p-4 rounded' key={plugin.pluginName + index}>{stat.name}: {stat.value}</div>)
-                })
-                return stats
+                if (plugin.stats !== undefined){
+                  plugin.stats.map((stat, index) => {
+                    stats.push(<div className='bg-purple-500 p-4 rounded' key={plugin.pluginName + index}>{stat.name}: {stat.value}</div>)
+                  })
+                  return stats
+                }
               })
             }
           </div>

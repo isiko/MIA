@@ -13,6 +13,8 @@ class Plugin {
     handleIncomingMessage(message, deviceID){}
 
     getStats(deviceID){}
+
+    getData(deviceID){}
 }
 
 module.exports = Plugin

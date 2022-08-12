@@ -12,7 +12,7 @@ contextBridge.exposeInMainWorld('devices', {
 })
 
 contextBridge.exposeInMainWorld('plugins', {
-  getStats: (id) => ipcRenderer.invoke('plugins:getStats', id),
+  getData: (id) => ipcRenderer.invoke('plugins:getData', id),
 })
 
 contextBridge.exposeInMainWorld('versions', {

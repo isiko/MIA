@@ -47,22 +47,22 @@ class HeartBeatPlugin extends Plugin{
         }
     }
 
-    getStats(deviceID){
+    getStats(deviceUUID){
         let stats = []
         
         stats.push({
             name: "Ping-Pong Time",
-            value: this.pingTiming[deviceID] !== undefined ? `${(this.pingTiming[deviceID])}ms` : "No Response so far"
+            value: this.pingTiming[deviceUUID] !== undefined ? `${(this.pingTiming[deviceUUID])}ms` : "No Response so far"
         })
 
         stats.push({
             name: "Successful Pings",
-            value: (this.successfulCounter[deviceID] || 0)
+            value: (this.successfulCounter[deviceUUID] || 0)
         })
 
         stats.push({
             name: "Answered Pings",
-            value: (this.answeredCounter[deviceID] || 0)
+            value: (this.answeredCounter[deviceUUID] || 0)
         })
 
         stats.push({
@@ -71,6 +71,15 @@ class HeartBeatPlugin extends Plugin{
         })
 
         return stats
+    }
+
+    getData(deviceUUID){
+        return {
+            pingTiming: this.pingTiming[deviceUUID],
+            successfulCounter: this.successfulCounter[deviceUUID],
+            answeredCounter: this.answeredCounter[deviceUUID],
+            pingCounter: this.pingCounter,
+        }
     }
 }
 
