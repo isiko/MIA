@@ -8,10 +8,14 @@ import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
 export default function DeviceInformation() {
 
   const { id } =  useParams();
-  const [log, setLog] = useState({deviceLog: []});
+  const [state, setState] = useState({deviceLog: [], plugins: []});
 
   window.devices.getMessageLog(id).then((log) => {
-    setLog({deviceLog: log})
+    setState({deviceLog: log, plugins: state.plugins})
+  })
+
+  window.plugins.getStats(id).then((plugins) => {
+    setState({deviceLog: state.deviceLog, plugins: plugins})
   })
 
   return (
@@ -23,19 +27,21 @@ export default function DeviceInformation() {
         <div className='p-5 font-semibold flex flex-col space-y-10'>
           {/* Recent Activity */}
           <div className="grid grid-cols-2 gap-3 content-start text-center text-white">
-            <div className='bg-purple-500 p-4 rounded'>Last Active: (Date)</div>
-            <div className='bg-purple-500 p-4 rounded'>Last Action: (Action)</div>
-            <div className='bg-purple-500 p-4 rounded'>Other Statistic</div>
-            <div className='bg-purple-500 p-4 rounded'>More Data</div>
-            <div className='bg-purple-500 p-4 rounded'>AAAA</div>
-            <div className='bg-purple-500 p-4 rounded'>SO MUCH DATA</div>
-            <div className='bg-purple-500 p-4 rounded'>THERE IS EVEN MORE</div>
+            {
+              state.plugins.map((plugin) => {
+                let stats = []
+                plugin.stats.map((stat, index) => {
+                  stats.push(<div className='bg-purple-500 p-4 rounded' key={plugin.pluginName + index}>{stat.name}: {stat.value}</div>)
+                })
+                return stats
+              })
+            }
           </div>
 
           {/* Log */}
           <div className='font-semibold flex flex-col space-y-3 text-white'>
           {
-            log.deviceLog.slice().reverse().map((message, index) => {
+            state.deviceLog.slice().reverse().map((message, index) => {
               try {
                 return (
                   <div className={`w-[100%] ${message.type === "recieved" ? "bg-purple-800" : "bg-purple-600"} p-4 rounded flex flex-row `} key={index}>
