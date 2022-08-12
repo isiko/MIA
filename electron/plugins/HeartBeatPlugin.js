@@ -56,18 +56,8 @@ class HeartBeatPlugin extends Plugin{
         })
 
         stats.push({
-            name: "Successful Pings",
-            value: (this.successfulCounter[deviceUUID] || 0)
-        })
-
-        stats.push({
-            name: "Answered Pings",
-            value: (this.answeredCounter[deviceUUID] || 0)
-        })
-
-        stats.push({
-            name: "Sendt Pings",
-            value: this.pingCounter
+            name: "Ping Successrate",
+            value: this.successfulCounter[deviceUUID] === undefined || this.pingCounter === 0 ? "No Response so far" : Math.round(this.successfulCounter[deviceUUID]/this.pingCounter*100) + "%"
         })
 
         return stats
