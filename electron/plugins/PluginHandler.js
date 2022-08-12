@@ -28,6 +28,12 @@ class PluginHander {
                 return data
             }
         },
+        {
+            name: 'plugins:runPluginCallback',
+            handler: (event, deviceID, pluginName, ...args) => {
+                return this.plugins.find(plugin => plugin.name === pluginName).runCallback(deviceID, ...args)
+            }
+        }
     ]
 
     registerPlugin(plugin){

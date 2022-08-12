@@ -15,6 +15,8 @@ class Plugin {
     getStats(deviceID){}
 
     getData(deviceID){}
+
+    runCallback(deviceID, ...args){}
 }
 
 module.exports = Plugin

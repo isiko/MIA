@@ -13,6 +13,7 @@ contextBridge.exposeInMainWorld('devices', {
 
 contextBridge.exposeInMainWorld('plugins', {
   getData: (id) => ipcRenderer.invoke('plugins:getData', id),
+  runCallback: (id, name, ...args) => ipcRenderer.invoke('plugins:runPluginCallback', id, name, ...args),
 })
 
 contextBridge.exposeInMainWorld('versions', {
