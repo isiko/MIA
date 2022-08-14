@@ -4,6 +4,7 @@ import ConnectivityDisplay from '../components/ConnectivityDisplay/ConnectivityD
 import Headline from '../components/Headline'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
+import HeartBeatPlugin from '../components/plugins/HeartBeat';
 
 export default function DeviceInformation() {
 
@@ -17,26 +18,6 @@ export default function DeviceInformation() {
   window.plugins.getData(id).then((plugins) => {
     setState({deviceLog: state.deviceLog, plugins: plugins})
   })
-
-  let heatBeatPluginData = () => {
-    let heartBeatplugin = state.plugins.find((plugin) => plugin.pluginName === 'heartBeat')
-
-    return (heartBeatplugin === undefined ? null :
-      <div className="min-w-fit text-white bg-purple-500 p-4 rounded">
-        <div className="grid grid-cols-2 gap-3 ">
-          <p className="text-right">Answered Pings</p>
-          <p className="text-left">{heartBeatplugin.data.answeredCounter}</p>
-
-          <p className="text-right">Ping in MS</p>
-          <p className="text-left">{heartBeatplugin.data.pingTiming}ms</p>
-
-          <p className="text-right">Ping success Rate</p>
-          <p className="text-left">{parseInt(heartBeatplugin.data.successfulCounter / heartBeatplugin.data.pingCounter * 100)}%</p>
-
-        </div>
-      </div>)
-
-  }
 
   return (
     <div>
@@ -60,9 +41,7 @@ export default function DeviceInformation() {
             }
           </div>
 
-          {
-            heatBeatPluginData() !== undefined ? heatBeatPluginData() : null
-          }
+          <HeartBeatPlugin id={id}/>
 
           {/* Log */}
           <div className='font-semibold flex flex-col space-y-3 text-white w-[100%]'>
