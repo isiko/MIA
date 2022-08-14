@@ -1,4 +1,4 @@
-import { React, useState } from 'react'
+import { React, useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom';
 import ConnectivityDisplay from '../components/ConnectivityDisplay/ConnectivityDisplay'
 import Headline from '../components/Headline'
@@ -9,10 +9,13 @@ import DeviceStats from '../components/DeviceStats';
 export default function DeviceInformation() {
 
   const { id } = useParams();
+  const [device, setDevice] = useState({});
+
+  window.devices.get().then((devices) => setDevice(devices[id]))
 
   return (
     <div>
-      <Headline text={"Device Name"}>
+      <Headline text={device.name}>
         <ConnectivityDisplay />
       </Headline>
 
