@@ -57,6 +57,7 @@ app.whenReady().then(() => {
 
   //Setup Plugin Handling
   global.pluginHandler = new PluginHandler();
+  handlers = handlers.concat(pluginHandler.handlers)
 
   // Setup Device Handling
   global.connectionHandler = new ConnectionHandler();

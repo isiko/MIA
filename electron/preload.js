@@ -11,6 +11,11 @@ contextBridge.exposeInMainWorld('devices', {
   onUpdate: (callback) => ipcRenderer.on('devices:update', callback),
 })
 
+contextBridge.exposeInMainWorld('plugins', {
+  getData: (id) => ipcRenderer.invoke('plugins:getData', id),
+  runCallback: (id, name, ...args) => ipcRenderer.invoke('plugins:runPluginCallback', id, name, ...args),
+})
+
 contextBridge.exposeInMainWorld('versions', {
   node: () => process.versions.node,
   chrome: () => process.versions.chrome,

@@ -11,6 +11,12 @@ class Plugin {
     }
 
     handleIncomingMessage(message, deviceID){}
+
+    getStats(deviceID){}
+
+    getData(deviceID){}
+
+    runCallback(deviceID, ...args){}
 }
 
 module.exports = Plugin
