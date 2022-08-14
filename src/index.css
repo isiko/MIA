@@ -52,13 +52,14 @@ code {
     @apply inline mx-1 p-1 rounded shadow-lg;
     @apply justify-items-center;
     @apply w-10 h-10;
+    @apply text-black;
   }
 
   .connectivity-wraper-inactive {
-    @apply text-white bg-transparent;
+    @apply bg-red-300;
   }
 
   .connectivity-wraper-active {
-    @apply text-black bg-red-100;
+    @apply bg-green-300;
   }
 }
