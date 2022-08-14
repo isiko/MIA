@@ -16,7 +16,7 @@ export default function DeviceInformation() {
   return (
     <div>
       <Headline text={device.name}>
-        <ConnectivityDisplay />
+        <ConnectivityDisplay id={device.id}/>
       </Headline>
 
       <div className='p-5 font-semibold flex flex-col space-y-10 items-center w-[100%]'>
