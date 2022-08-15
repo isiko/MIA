@@ -19,7 +19,7 @@ export default function ConnectivityDisplay({className, id}) {
         <WifiDisplay active={state.activeConnections.includes("lan")} />
         {/* <BluetoothDisplay active={false}/>
         <SerialDisplay active={false}/>
-        <BatteryDisplay percentage={batteryPercent} active={false}/> */}
+        <BatteryDisplay percentage={batteryPercent} /> */}
     </div>
   )
 }

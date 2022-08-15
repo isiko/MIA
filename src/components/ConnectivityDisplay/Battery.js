@@ -3,9 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
 import ConnectionDisplayWrapper from './DisplayWrapper'
 
-export default function BatteryDisplay({ active, className, percentage }) {
+export default function BatteryDisplay({ className, percentage }) {
     return (
-        <ConnectionDisplayWrapper className={className} active={active}>
+        <ConnectionDisplayWrapper className={className}>
             {
                 percentage >= 0.90 ? <FontAwesomeIcon icon={solid('battery-full')} className="connectivity-icon" /> :
                 percentage >= 0.75 ? <FontAwesomeIcon icon={solid('battery-three-quarters')} className="connectivity-icon" /> :

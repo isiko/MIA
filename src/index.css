@@ -59,11 +59,12 @@ code {
     
   }
 
-  .connectivity-wraper-inactive, .connectivity-wraper-active {
+  .connectivity-wraper {
     @apply inline mx-1 p-1 rounded shadow-lg;
     @apply justify-items-center;
     @apply w-10 h-10;
     @apply text-black;
+    @apply bg-white;
   }
 
   .connectivity-wraper-inactive {
