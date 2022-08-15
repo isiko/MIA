@@ -23,8 +23,9 @@ export default function DeviceInformation() {
         <div className='p-5 font-semibold flex flex-col space-y-10 items-center w-[100%]'>
           <DeviceStats id={id} />
   
-          <HeartBeatPlugin id={id}/>
-  
+          <div className='flex flex-wrap gap-10 justify-items-center items-center place-content-center w-full'>
+            <HeartBeatPlugin id={id} />
+          </div>
           <MessageLog id={id}/>
         </div>
         {/*

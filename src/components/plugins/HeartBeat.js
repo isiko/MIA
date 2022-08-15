@@ -25,7 +25,7 @@ export default class HeartBeatPlugin extends Component {
     render() {
         return (
             this.state === {} && this.state.pingCounter > 0 ? null :
-            <div className="min-w-fit text-white bg-purple-500 rounded-xl">
+            <div className="w-fit text-white bg-purple-500 rounded-xl">
                 <p className='text-center p-4 bg-purple-600 text-2xl rounded-xl'>Ping Statistics</p>
                 <div className="grid grid-cols-1 gap-3 p-4">
                         <p className="text-center">Answered Pings: {(this.state.answeredCounter || 0)}</p>
