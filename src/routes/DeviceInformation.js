@@ -13,24 +13,32 @@ export default function DeviceInformation() {
 
   window.devices.get().then((devices) => setDevice(devices[id]))
 
-  return (
-    <div>
-      <Headline text={device.name}>
-        <ConnectivityDisplay id={device.id}/>
-      </Headline>
-
-      <div className='p-5 font-semibold flex flex-col space-y-10 items-center w-[100%]'>
-        <DeviceStats id={id} />
-
-        <HeartBeatPlugin id={id}/>
-
-        <MessageLog id={id}/>
+  try {
+    return (
+      <div>
+        <Headline text={device.name}>
+          <ConnectivityDisplay id={device.id}/>
+        </Headline>
+  
+        <div className='p-5 font-semibold flex flex-col space-y-10 items-center w-[100%]'>
+          <DeviceStats id={id} />
+  
+          <HeartBeatPlugin id={id}/>
+  
+          <MessageLog id={id}/>
+        </div>
+        {/*
+              - Activity
+              - Available Actions
+              - Configure Device in Application
+          */}
       </div>
-      {/*
-            - Activity
-            - Available Actions
-            - Configure Device in Application
-        */}
-    </div>
-  )
+    )
+  } catch (e) {
+    return (
+      <div>
+        <Headline text='Device not found'/>
+      </div>
+    )
+  }
 }

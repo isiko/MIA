@@ -24,16 +24,16 @@ function DeviceRedirect() {
 function App() {
 
   return (
-    <div className="flex">
+    <div className="">
       <BrowserRouter>
-        <Sidebar />
-        <div className='ml-16 w-full bg-gray-900 min-h-screen'>
+        <div className='absulute left-0 top-0 ml-16 min-h-screen bg-gray-900'>
           <Routes>
             <Route path="/" element={<DeviceRedirect/>} />
             <Route path="/settings" element={<Settings/>} />
             <Route path="/:id" element={<DeviceInformation/>} />
           </Routes>
         </div>
+        <Sidebar />
       </BrowserRouter>
     </div>
   );
