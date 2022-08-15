@@ -32,7 +32,7 @@ export default class DeviceStats extends Component {
                         .filter(p => p.stats !== undefined)
                         .map((plugin, pluginIndex) => {
                             let stats = []
-                            plugin.stats.map((stat, index) => {
+                            plugin.stats.map( stat => {
                                 stats.push(<div className={`${COLORS[pluginIndex % COLORS.length]} p-4 rounded`} key={plugin.pluginName + stat.name}>{stat.name}: {stat.value}</div>)
                             })
                             return stats
