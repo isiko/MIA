@@ -32,18 +32,18 @@ class Sidebar extends Component {
             this.setState({devices: this.deviceCacheToArray(devices)})
         })
     }
-    //TODO Make this Scrollable
+
     render() {
         return (
-            <aside className="fixed top-0 left-0 h-screen w-16 m-0 flex flex-col bg-red-900 text-white shadow-lg">
-                <div className='flex h-[5rem] flex-col justify-center shrink-0'>
-                    <NavLink to="settings" className={({ isActive }) => isActive ? "sidebar-icon-highlighted" : "sidebar-icon"}>
-                        <FontAwesomeIcon icon={solid('gear')} className="w-[28px] h-[28px]" />
-                    </NavLink>
-                </div>
-                <div className=''>
+            <aside className='absolute left-0 top-0'>
+                <div className='fixed h-screen w-16 shadow-lg bg-red-900' />
+                <div className='fixed h-screen overflow-y-scroll no-scrollbar'>
+                    <div className='h-[5rem] flex flex-col justify-center'>
+                        <NavLink to="settings" className={({ isActive }) => isActive ? "sidebar-icon-highlighted" : "sidebar-icon"}>
+                            <FontAwesomeIcon icon={solid('gear')} className="w-[28px] h-[28px]" />
+                        </NavLink>
+                    </div>
                     {
-
                         this.state.devices.map((device, index) => {
                             return <SidebarIcon icon={device.icon} text={device.name} id={device.id} key={index} />
                         })
@@ -63,15 +63,16 @@ const SidebarIcon = function ({ icon, text, id}) {
     ]
     
     return (
-        <NavLink
-            to={String(id)} 
-            className={({ isActive }) => {
-                return "group " + (isActive ? "sidebar-icon-highlighted" : "sidebar-icon")
-            }}>
-            { icons[icon] }
-
-            <span className='sidebar-tooltip group-hover:scale-100'> { text } </span>
-        </NavLink>
+        <div className='flex flex-row items-center h-16 w-min pointer-events-none'>
+            <NavLink
+                to={String(id)}
+                className={({ isActive }) => {
+                    return "peer pointer-events-auto " + (isActive ? "sidebar-icon-highlighted" : "sidebar-icon")
+                }}>
+                {icons[icon]}
+            </NavLink>
+            <p className='sidebar-tooltip peer-hover:ml-2 peer-hover:p-2 peer-hover:w-min peer-hover:scale-100'> {text} </p>
+        </div>
     )
 }
 

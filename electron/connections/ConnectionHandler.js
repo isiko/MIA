@@ -12,6 +12,10 @@ class ConnectionHandler {
         {
             name: 'devices:getMessageLog',
             handler: (event, deviceID, callback) => this.messageLog[deviceID] === undefined ? [] : this.messageLog[deviceID]
+        },
+        {
+            name: 'devices:getConnectionStatus',
+            handler: (event, deviceID) => this.getDeviceConnectionStatus(deviceID)
         }
     ]
 
@@ -160,15 +164,16 @@ class ConnectionHandler {
      * @returns some basic information about the device Connection
      */
     getDeviceConnectionStatus(deviceID){
-        let connectionAmount = 0;
+        let connectionTypes = []
         this.connections.forEach((connection) => {
             if(connection.isConnected(deviceID)){
-                connectionAmount++
+                connectionTypes.push(connection.name)
             }
         })
 
         return {
-            connections: connectionAmount,
+            connections: connectionTypes.length,
+            activeConnections: connectionTypes,
             lastSeen: this.getLastSeen(deviceID)
         }
     }
