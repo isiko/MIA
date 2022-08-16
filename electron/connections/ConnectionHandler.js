@@ -154,7 +154,7 @@ class ConnectionHandler {
             icon: type,
             id: deviceID
         }
-
+        
         this.updateDeviceCache()
     }
 
@@ -220,7 +220,7 @@ class ConnectionHandler {
         return {
             name: os.hostname(),
             id: encryptionHandler.getDeviceID(),
-            type: 0,
+            type: 1,
         }
     }
 }
