@@ -104,8 +104,8 @@ class LanConnectionType extends ConenctionType {
                 if (e.name === "SyntaxError" && e.message === "Unexpected end of JSON input"){
                     console.log("TCP Data incomplete");
                 } else {
-                    incomingBuffer = ""
-                    throw e
+                    // TODO: Improve Package Handling
+                    console.log(e)
                 }
             }
         })
