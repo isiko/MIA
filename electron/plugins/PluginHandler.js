@@ -8,10 +8,11 @@ class PluginHander {
         {
             name: 'plugins:getData',
             handler: (event, deviceID) => {
+                let deviceUUID = /\r|\n/.exec(deviceID) ? encryptionHandler.getUUID(deviceID) : deviceID
                 let data = []
                 this.plugins.forEach((plugin) => {
-                    let pluginData = plugin.getData(deviceID)
-                    let pluginStats = plugin.getStats(deviceID)
+                    let pluginData = plugin.getData(deviceUUID)
+                    let pluginStats = plugin.getStats(deviceUUID)
 
                     if (pluginStats !== undefined) {
                         for (let stat of pluginStats)

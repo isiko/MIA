@@ -18,8 +18,8 @@ export default function ConnectivityDisplay({className, id}) {
     <div className={`text-2xl text-center inline h-[100%] ${className} flex`}>
         <WifiDisplay active={state.activeConnections.includes("lan")} />
         {/* <BluetoothDisplay active={false}/>
-        <SerialDisplay active={false}/>
-        <BatteryDisplay percentage={batteryPercent} pluggedin={true} /> */}
+        <SerialDisplay active={false}/> */}
+        <BatteryDisplay percentage={batteryPercent} pluggedin={true} id={id}/>
     </div>
   )
 }
