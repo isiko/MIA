@@ -24,8 +24,8 @@ class MessagePlugin extends Plugin{
         this.hasMessage = true
     }
 
-    sendMessage(text){
-        this.sendMessage(text, undefined, () => {})
+    sendTextMessage(text, deviceID){
+        this.sendMessage(text, deviceID, () => {})
     }
 
     // No Stats as the Battery Status is displayed natively
