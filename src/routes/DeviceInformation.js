@@ -26,6 +26,9 @@ export default function DeviceInformation() {
           <div className='flex flex-wrap gap-10 justify-items-center items-center place-content-center w-full'>
             <HeartBeatPlugin id={id} />
           </div>
+
+          { /* TODO: Add Interface for Message Plugin */ }
+
           <MessageLog id={id}/>
         </div>
         {/*
