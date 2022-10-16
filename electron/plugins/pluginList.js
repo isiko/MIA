@@ -1,5 +1,6 @@
 module.exports = [
     require('./HeartBeatPlugin'),
     require('./BatteryStatusPlugin'),
-    require('./MessagePlugin')
+    require('./MessagePlugin'),
+    require('./DeviceStatusPlugin')
 ]
